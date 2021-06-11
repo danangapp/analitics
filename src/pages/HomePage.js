@@ -19,6 +19,18 @@ import NotFoundPage from "./examples/NotFound";
 import ServerError from "./examples/ServerError";
 
 // documentation pages
+import March from "../colours/March";
+import April from "../colours/April";
+import May from "../colours/May";
+import June from "../colours/June";
+import Browsers from "../views/Browsers";
+import Devices from "../views/Devices";
+import Durations from "../views/Durations";
+import Languages from "../views/Languages";
+import Pages from "../views/Pages";
+import Systems from "../views/Systems";
+import Sizes from "../views/Sizes";
+import Views from "../views/Views";
 import DocsOverview from "./documentation/DocsOverview";
 import DocsDownload from "./documentation/DocsDownload";
 import DocsQuickStart from "./documentation/DocsQuickStart";
@@ -111,6 +123,18 @@ export default () => (
     <RouteWithLoader exact path={Routes.ServerError.path} component={ServerError} />
 
     {/* pages */}
+    <RouteWithSidebar exact path={Routes.March.path} component={March} />
+    <RouteWithSidebar exact path={Routes.April.path} component={April} />
+    <RouteWithSidebar exact path={Routes.May.path} component={May} />
+    <RouteWithSidebar exact path={Routes.June.path} component={June} />
+    <RouteWithSidebar exact path={Routes.Browsers.path} component={Browsers} />
+    <RouteWithSidebar exact path={Routes.Devices.path} component={Devices} />
+    <RouteWithSidebar exact path={Routes.Durations.path} component={Durations} />
+    <RouteWithSidebar exact path={Routes.Languages.path} component={Languages} />
+    <RouteWithSidebar exact path={Routes.Pages.path} component={Pages} />
+    <RouteWithSidebar exact path={Routes.Systems.path} component={Systems} />
+    <RouteWithSidebar exact path={Routes.Sizes.path} component={Sizes} />
+    <RouteWithSidebar exact path={Routes.Views.path} component={Views} />
     <RouteWithSidebar exact path={Routes.Danang.path} component={Danang} />
     <RouteWithSidebar exact path={Routes.DashboardOverview.path} component={DashboardOverview} />
     <RouteWithSidebar exact path={Routes.Upgrade.path} component={Upgrade} />
