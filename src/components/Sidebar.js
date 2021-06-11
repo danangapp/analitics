@@ -101,16 +101,15 @@ export default (props = {}) => {
 
               <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />              
               <CollapsableNavItem eventKey="colours/" title="Colours" icon={faTable}>
-                <NavItem title="March" link={Routes.March.path} />
-                <NavItem title="April" link={Routes.April.path} />
-                <NavItem title="May" link={Routes.May.path} />
                 <NavItem title="June" link={Routes.June.path} />                               
+                <NavItem title="May" link={Routes.May.path} />
+                <NavItem title="April" link={Routes.April.path} />
+                <NavItem title="March" link={Routes.March.path} />
               </CollapsableNavItem>
-              <CollapsableNavItem eventKey="views/" title="Views" icon={faTable}>
+              <CollapsableNavItem eventKey="insights/" title="Insights" icon={faTable}>
                 <NavItem title="Browsers" link={Routes.Browsers.path} />
                 <NavItem title="Devices" link={Routes.Devices.path} />
                 <NavItem title="Durations" link={Routes.Durations.path} />
-                <NavItem title="Languages" link={Routes.Languages.path} />
                 <NavItem title="Pages" link={Routes.Pages.path} />
                 <NavItem title="Systems" link={Routes.Systems.path} />
                 <NavItem title="Sizes" link={Routes.Sizes.path} />
