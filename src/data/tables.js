@@ -9,7 +9,6 @@ import FranceFlag from '../assets/img/flags/france.svg';
 import JapanFlag from '../assets/img/flags/japan.svg';
 import ItalyFlag from '../assets/img/flags/italy.svg';
 
-
 const pageVisits = [
     { id: 1, views: 4.525, returnValue: 255, bounceRate: 42.55, pageName: "/demo/admin/index.html" },
     { id: 2, views: 2.987, returnValue: 139, bounceRate: -43.52, pageName: "/demo/admin/forms.html" },

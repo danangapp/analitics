@@ -1,13 +1,25 @@
 
-import React from "react";
+import React, { useState } from "react";
 import Chartist from "react-chartist";
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
+import axios from 'axios';
+
 
 export const SalesValueChart = () => {
-  const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    series: [[1, 2, 2, 3, 3, 4, 3]]
-  };
+  const [data, setData] = useState([]);
+  axios.get('http://localhost:2000/colours/views/june')
+    .then(function (res) {
+      var arr1 = [], arr2 = [], arr3 = [];
+      const resData = res.data || [];
+      for (const a in resData) {
+        arr1.push(resData[a].dates || []);
+        arr2.push(resData[a].views || []);
+      }
+      arr3.push(arr2);
+      data.labels = arr1;
+      data.series = arr3;
+      setData(data)
+    });
 
   const options = {
     low: 0,
@@ -18,7 +30,6 @@ export const SalesValueChart = () => {
       showGrid: true
     },
     axisY: {
-      // On the y-axis start means left and end means right
       showGrid: false,
       showLabel: false,
       labelInterpolationFnc: value => `$${value / 1}k`
@@ -30,7 +41,7 @@ export const SalesValueChart = () => {
   ]
 
   return (
-    <Chartist data={data} options={{...options, plugins}} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
@@ -61,7 +72,7 @@ export const SalesValueChartphone = () => {
   ]
 
   return (
-    <Chartist data={data} options={{...options, plugins}} type="Line" className="ct-series-g ct-major-tenth" />
+    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-major-tenth" />
   );
 };
 
@@ -85,7 +96,7 @@ export const CircleChart = (props) => {
   ]
 
   return (
-    <Chartist data={{ series }} options={{...options, plugins}} type="Pie" className="ct-golden-section" />
+    <Chartist data={{ series }} options={{ ...options, plugins }} type="Pie" className="ct-golden-section" />
   );
 };
 
@@ -111,6 +122,6 @@ export const BarChart = (props) => {
   ]
 
   return (
-    <Chartist data={data} options={{...options, plugins}} type="Bar" className={chartClassName} />
+    <Chartist data={data} options={{ ...options, plugins }} type="Bar" className={chartClassName} />
   );
 };

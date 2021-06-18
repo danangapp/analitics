@@ -97,11 +97,11 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              
 
-              <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />              
+
+              <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <CollapsableNavItem eventKey="colours/" title="Colours" icon={faTable}>
-                <NavItem title="June" link={Routes.June.path} />                               
+                <NavItem title="June" link={Routes.June.path} />
                 <NavItem title="May" link={Routes.May.path} />
                 <NavItem title="April" link={Routes.April.path} />
                 <NavItem title="March" link={Routes.March.path} />
@@ -111,12 +111,11 @@ export default (props = {}) => {
                 <NavItem title="Devices" link={Routes.Devices.path} />
                 <NavItem title="Durations" link={Routes.Durations.path} />
                 <NavItem title="Pages" link={Routes.Pages.path} />
-                <NavItem title="Systems" link={Routes.Systems.path} />
                 <NavItem title="Sizes" link={Routes.Sizes.path} />
-                <NavItem title="Views" link={Routes.Views.path} /> 
+                <NavItem title="Views" link={Routes.Views.path} />
               </CollapsableNavItem>
-              <NavItem title="Settings" link={Routes.DashboardOverview.path} icon={faChartPie} />              
-              <NavItem title="Logout" link={Routes.DashboardOverview.path} icon={faChartPie} />              
+              <NavItem title="Settings" link={Routes.DashboardOverview.path} icon={faChartPie} />
+              <NavItem title="Logout" link={Routes.DashboardOverview.path} icon={faChartPie} />
             </Nav>
           </div>
         </SimpleBar>

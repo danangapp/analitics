@@ -1,14 +1,15 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faArrowDown, faArrowUp, faEdit, faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Nav, Card, Image, Button, Table, Dropdown, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { Routes } from "../routes";
-import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
+import { pageTraffic, pageRanking } from "../data/tables";
 import transactions from "../data/transactions";
 import commands from "../data/commands";
+import axios from 'axios';
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -26,22 +27,25 @@ const ValueChange = ({ value, suffix }) => {
 
 export const PageVisitsTable = () => {
   const TableRow = (props) => {
-    const { pageName, views, returnValue, bounceRate } = props;
+    const { pageName, views, returnValue, bounceRate, page } = props;
     const bounceIcon = bounceRate < 0 ? faArrowDown : faArrowUp;
     const bounceTxtColor = bounceRate < 0 ? "text-danger" : "text-success";
 
     return (
       <tr>
-        <th scope="row">{pageName}</th>
+        <th scope="row">{page}</th>
         <td>{views}</td>
-        <td>${returnValue}</td>
-        <td>
-          <FontAwesomeIcon icon={bounceIcon} className={`${bounceTxtColor} me-3`} />
-          {Math.abs(bounceRate)}%
-        </td>
       </tr>
     );
   };
+
+  const [visits, setVisits] = useState([]);
+  axios.get('http://localhost:2000/colours/viewsrecord/june')
+    .then(function (res) {
+      console.log(res.data[0])
+      setVisits(res.data)
+    });
+
 
   return (
     <Card border="light" className="shadow-sm">
@@ -58,14 +62,14 @@ export const PageVisitsTable = () => {
       <Table responsive className="align-items-center table-flush">
         <thead className="thead-light">
           <tr>
-            <th scope="col">Page name</th>
+            <th scope="col">Page</th>
             <th scope="col">Page Views</th>
-            <th scope="col">Page Value</th>
+            {/* <th scope="col">Page Value</th> */}
             <th scope="col">Bounce rate</th>
           </tr>
         </thead>
         <tbody>
-          {pageVisits.map(pv => <TableRow key={`page-visit-${pv.id}`} {...pv} />)}
+          {visits.map(pv => <TableRow key={`page-visit-${pv.id}`} {...pv} />)}
         </tbody>
       </Table>
     </Card>
