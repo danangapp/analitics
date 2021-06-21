@@ -40,7 +40,7 @@ export const PageVisitsTable = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:2000/colours/viewsrecord/june')
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsrecord/june`)
       .then(function (res) {
         console.log(res.data[0])
         setVisits(res.data)

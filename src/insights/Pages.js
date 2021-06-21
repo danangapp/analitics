@@ -34,7 +34,7 @@ export default () => {
   const [may, setMay] = useState([]);
   const [june, setJune] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:2000/colours/viewspages/march')
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewspages/march`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -46,7 +46,7 @@ export default () => {
         data.datasets[0].data = arr2;
         setMarch(data);
       });
-    axios.get('http://localhost:2000/colours/viewspages/april')
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewspages/april`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -59,7 +59,7 @@ export default () => {
         console.log(data)
         setApril(data);
       });
-    axios.get('http://localhost:2000/colours/viewspages/may')
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewspages/may`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -71,7 +71,7 @@ export default () => {
         data.datasets[0].data = arr2;
         setMay(data);
       });
-    axios.get('http://localhost:2000/colours/viewspages/june')
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewspages/june`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {

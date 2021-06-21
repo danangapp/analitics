@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faChartArea, faChartBar, faChartLine, faFlagUsa, faFolderOpen, faGlobeEurope, faPaperclip, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { faAngular, faBootstrap, faReact, faVuejs } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Card, Image, Button, ListGroup, ProgressBar } from '@themesberg/react-bootstrap';
-import { CircleChart, BarChart, SalesValueChart, SalesValueChartphone } from "./Charts";
+import { CircleChart, BarChart, SalesValueChart, SalesValueChartMay, SalesValueChartApril, SalesValueChartMarch, SalesValueChartphone } from "./Charts";
 
 import Profile1 from "../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
@@ -316,17 +316,76 @@ export const SalesValueWidget = (props) => {
             {title}
           </h5>
           <h3>{value}</h3>
-          {/* <small className="fw-bold mt-2">
-            <span className="me-2">Yesterday</span>
-            <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
-            <span className={percentageColor}>
-              {percentage}%
-            </span>
-          </small> */}
         </div>
       </Card.Header>
       <Card.Body className="p-2">
         <SalesValueChart />
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const SalesValueWidgetMay = (props) => {
+  const { title, value, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card className="bg-secondary-alt shadow-sm">
+      <Card.Header className="d-flex flex-row align-items-center flex-0">
+        <div className="d-block">
+          <h5 className="fw-normal mb-2">
+            {title}
+          </h5>
+          <h3>{value}</h3>
+        </div>
+      </Card.Header>
+      <Card.Body className="p-2">
+        <SalesValueChartMay />
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const SalesValueWidgetApril = (props) => {
+  const { title, value, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card className="bg-secondary-alt shadow-sm">
+      <Card.Header className="d-flex flex-row align-items-center flex-0">
+        <div className="d-block">
+          <h5 className="fw-normal mb-2">
+            {title}
+          </h5>
+          <h3>{value}</h3>
+        </div>
+      </Card.Header>
+      <Card.Body className="p-2">
+        <SalesValueChartApril />
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const SalesValueWidgetMarch = (props) => {
+  const { title, value, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card className="bg-secondary-alt shadow-sm">
+      <Card.Header className="d-flex flex-row align-items-center flex-0">
+        <div className="d-block">
+          <h5 className="fw-normal mb-2">
+            {title}
+          </h5>
+          <h3>{value}</h3>
+        </div>
+      </Card.Header>
+      <Card.Body className="p-2">
+        <SalesValueChartMarch />
       </Card.Body>
     </Card>
   );
