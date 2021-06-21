@@ -43,7 +43,7 @@ export default () => {
       .then(function (res) {
         var counts = 0;
         for (var a in res.data) {
-          counts = counts + res.data.counts;
+          counts = counts + res.data[a].counts;
         }
 
         var obj = {}, arr = [], id = 0;
@@ -52,13 +52,12 @@ export default () => {
           obj = {};
           obj.id = id;
           obj.label = res.data[a].devices;
-          obj.value = res.data[a].counts;
+          obj.value = Math.round(res.data[a].counts / counts * 100);
           obj.color = "primary";
           obj.icon = "faDesktop";
           arr.push(obj);
         }
-        console.log(arr)
-        // const str = res.data[0].views || 0;
+
         setTraffics(arr);
       });
   }, []);
@@ -106,7 +105,7 @@ export default () => {
           <CounterWidget
             category="Views"
             title={clicks}
-            period="Jun 2 - June 21"
+            period="Feb 1 - Apr 1"
             percentage={18.2}
             icon={faChartLine}
             iconColor="shape-secondary"
