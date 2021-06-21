@@ -101,15 +101,25 @@ export default () => {
             percentage={10.57}
           />
         </Col>
+
         <Col xs={12} sm={6} xl={6} className="mb-4">
-          <CounterWidget
-            category="Views"
-            title={clicks}
-            period="Feb 1 - Apr 1"
-            percentage={18.2}
-            icon={faChartLine}
-            iconColor="shape-secondary"
-          />
+          <Row>
+            <Col xs={12} className="mb-4">
+              <CounterWidget
+                category="Views"
+                title={clicks}
+                period="Feb 1 - Apr 1"
+                percentage={18.2}
+                icon={faChartLine}
+                iconColor="shape-secondary"
+                className="mb-4"
+              />
+            </Col>
+            <Col xs={12} className="mb-4">
+              <PageVisitsTable />
+            </Col>
+          </Row>
+
         </Col>
 
         <Col xs={12} sm={6} xl={6} className="mb-4">
@@ -119,47 +129,6 @@ export default () => {
         </Col>
       </Row>
 
-      <Row>
-        <Col xs={12} xl={12} className="mb-4">
-          <Row>
-            <Col xs={12} xl={8} className="mb-4">
-              <Row>
-                <Col xs={12} className="mb-4">
-                  <PageVisitsTable />
-                </Col>
-
-                <Col xs={12} lg={6} className="mb-4">
-                  <TeamMembersWidget />
-                </Col>
-
-                <Col xs={12} lg={6} className="mb-4">
-                  <ProgressTrackWidget />
-                </Col>
-              </Row>
-            </Col>
-
-            <Col xs={12} xl={4}>
-              <Row>
-                <Col xs={12} className="mb-4">
-                  <BarChartWidget
-                    title="Total orders"
-                    value={452}
-                    percentage={18.2}
-                    data={totalOrders} />
-                </Col>
-
-                <Col xs={12} className="px-0 mb-4">
-                  <RankingWidget />
-                </Col>
-
-                <Col xs={12} className="px-0">
-                  <AcquisitionWidget />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
     </>
   );
 };
