@@ -38,10 +38,12 @@ var data = {
 };
 
 export default () => {
+  console.log("yaya")
   const [march, setMarch] = useState([]);
   const [april, setApril] = useState([]);
   const [may, setMay] = useState([]);
   const [june, setJune] = useState([]);
+  // console.log(process.env.REACT_APP_BASE_URL)
   useEffect(() => {
     axios.get('http://localhost:2000/colours/viewsbrowsers/march')
       .then(function (res) {

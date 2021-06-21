@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faArrowDown, faArrowUp, faEdit, faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Nav, Card, Image, Button, Table, Dropdown, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
@@ -39,12 +39,16 @@ export const PageVisitsTable = () => {
     );
   };
 
+  useEffect(() => {
+    axios.get('http://localhost:2000/colours/viewsrecord/june')
+      .then(function (res) {
+        console.log(res.data[0])
+        setVisits(res.data)
+      });
+  }, []);
+
   const [visits, setVisits] = useState([]);
-  axios.get('http://localhost:2000/colours/viewsrecord/june')
-    .then(function (res) {
-      console.log(res.data[0])
-      setVisits(res.data)
-    });
+
 
 
   return (
@@ -64,8 +68,6 @@ export const PageVisitsTable = () => {
           <tr>
             <th scope="col">Page</th>
             <th scope="col">Page Views</th>
-            {/* <th scope="col">Page Value</th> */}
-            <th scope="col">Bounce rate</th>
           </tr>
         </thead>
         <tbody>
