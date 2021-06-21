@@ -89,6 +89,7 @@ export const SalesValueChartApril = () => {
   const [data, setData] = useState([]);
   axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/april`)
     .then(function (res) {
+      console.log("danang data", res.data);
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
       for (const a in resData) {
