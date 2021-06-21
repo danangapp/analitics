@@ -11,7 +11,6 @@ import { trafficShares, totalOrders } from "../../data/charts";
 
 const valueConversion = (value) => {
   var suffixes = ["", "k", "m", "b", "t"];
-  console.log("danang str", value);
   var suffixNum = Math.floor(("" + value).length / 3);
   var shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(2));
   if (shortValue % 1 !== 0) {

@@ -104,16 +104,8 @@ export default () => {
           <Col xs={6} className="text-center">
             <Card border="light" className="bg-white shadow-sm mb-4">
               <Card.Body>
-                <h5 className="mb-4">March</h5>
-                <Pie data={march} />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">April</h5>
-                <Pie data={april} />
+                <h5 className="mb-4">June</h5>
+                <Pie data={june} />
               </Card.Body>
             </Card>
           </Col>
@@ -128,11 +120,21 @@ export default () => {
           <Col xs={6} className="text-center">
             <Card border="light" className="bg-white shadow-sm mb-4">
               <Card.Body>
-                <h5 className="mb-4">June</h5>
-                <Pie data={june} />
+                <h5 className="mb-4">April</h5>
+                <Pie data={april} />
               </Card.Body>
             </Card>
           </Col>
+          <Col xs={6} className="text-center">
+            <Card border="light" className="bg-white shadow-sm mb-4">
+              <Card.Body>
+                <h5 className="mb-4">March</h5>
+                <Pie data={march} />
+              </Card.Body>
+            </Card>
+          </Col>
+
+
         </Row>
       </Container>
     </>

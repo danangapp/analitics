@@ -101,16 +101,8 @@ export default () => {
           <Col xs={6} className="text-center">
             <Card border="light" className="bg-white shadow-sm mb-4">
               <Card.Body>
-                <h5 className="mb-4">March</h5>
-                <Bar data={march} options={options} />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">April</h5>
-                <Bar data={april} options={options} />
+                <h5 className="mb-4">June</h5>
+                <Bar data={june} options={options} />
               </Card.Body>
             </Card>
           </Col>
@@ -125,11 +117,22 @@ export default () => {
           <Col xs={6} className="text-center">
             <Card border="light" className="bg-white shadow-sm mb-4">
               <Card.Body>
-                <h5 className="mb-4">June</h5>
-                <Bar data={june} options={options} />
+                <h5 className="mb-4">April</h5>
+                <Bar data={april} options={options} />
               </Card.Body>
             </Card>
           </Col>
+          <Col xs={6} className="text-center">
+            <Card border="light" className="bg-white shadow-sm mb-4">
+              <Card.Body>
+                <h5 className="mb-4">March</h5>
+                <Bar data={march} options={options} />
+              </Card.Body>
+            </Card>
+          </Col>
+
+
+
         </Row>
       </Container>
     </>
