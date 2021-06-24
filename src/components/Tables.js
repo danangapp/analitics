@@ -25,7 +25,8 @@ const ValueChange = ({ value, suffix }) => {
   );
 };
 
-export const PageVisitsTable = () => {
+export const PageVisitsTable = (props) => {
+
   const TableRow = (props) => {
     const { pageName, views, returnValue, bounceRate, page } = props;
     const bounceIcon = bounceRate < 0 ? faArrowDown : faArrowUp;
@@ -40,7 +41,8 @@ export const PageVisitsTable = () => {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsrecord/june`)
+    // console.log("props", props);
+    axios.get(`${process.env.REACT_APP_BASE_URL}/${props.app}/viewsrecord/${props.edition}`)
       .then(function (res) {
         console.log(res.data[0])
         setVisits(res.data)

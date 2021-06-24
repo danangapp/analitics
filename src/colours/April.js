@@ -116,7 +116,7 @@ export default () => {
               />
             </Col>
             <Col xs={12} className="mb-4">
-              <PageVisitsTable />
+              <PageVisitsTable app="colours" edition="april" />
             </Col>
           </Row>
 

@@ -91,7 +91,7 @@ const PieChart = () => {
   return (
     <>
       <div className='header'>
-        <h1 className='title'>Per Click</h1>
+        <h1 className='title'>Per Views</h1>
       </div>
 
       <Container>
