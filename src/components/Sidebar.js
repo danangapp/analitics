@@ -108,6 +108,7 @@ export default (props = {}) => {
               </CollapsableNavItem>
               <CollapsableNavItem eventKey="insights/" title="Insights" icon={faTable}>
                 <NavItem title="Browsers" link={Routes.Browsers.path} />
+                <NavItem title="Countrys" link={Routes.Countrys.path} />
                 <NavItem title="Devices" link={Routes.Devices.path} />
                 <NavItem title="Durations" link={Routes.Durations.path} />
                 <NavItem title="Pages" link={Routes.Pages.path} />

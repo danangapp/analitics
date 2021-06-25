@@ -24,6 +24,7 @@ import April from "../colours/April";
 import May from "../colours/May";
 import June from "../colours/June";
 import Browsers from "../insights/Browsers";
+import Countrys from "../insights/Countrys";
 import Devices from "../insights/Devices";
 import Durations from "../insights/Durations";
 import Languages from "../insights/Languages";
@@ -71,7 +72,7 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
   }, []);
 
   return (
-    <Route {...rest} render={props => ( <> <Preloader show={loaded ? false : true} /> <Component {...props} /> </> ) } />
+    <Route {...rest} render={props => (<> <Preloader show={loaded ? false : true} /> <Component {...props} /> </>)} />
   );
 };
 
@@ -113,7 +114,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
 export default () => (
   <Switch>
-        
+
     <RouteWithLoader exact path={Routes.Signin.path} component={Signin} />
     <RouteWithLoader exact path={Routes.Signup.path} component={Signup} />
     <RouteWithLoader exact path={Routes.ForgotPassword.path} component={ForgotPassword} />
@@ -128,6 +129,7 @@ export default () => (
     <RouteWithSidebar exact path={Routes.May.path} component={May} />
     <RouteWithSidebar exact path={Routes.June.path} component={June} />
     <RouteWithSidebar exact path={Routes.Browsers.path} component={Browsers} />
+    <RouteWithSidebar exact path={Routes.Countrys.path} component={Countrys} />
     <RouteWithSidebar exact path={Routes.Devices.path} component={Devices} />
     <RouteWithSidebar exact path={Routes.Durations.path} component={Durations} />
     <RouteWithSidebar exact path={Routes.Languages.path} component={Languages} />
