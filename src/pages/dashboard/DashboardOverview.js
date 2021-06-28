@@ -1,13 +1,8 @@
 
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
+import { Col, Row, Card } from '@themesberg/react-bootstrap';
 import axios from 'axios';
-
-import { CounterWidget, CircleChartWidget, BarChartWidget, TeamMembersWidget, ProgressTrackWidget, RankingWidget, SalesValueWidget, SalesValueWidgetPhone, AcquisitionWidget } from "../../components/Widgets";
-import { PageVisitsTable } from "../../components/Tables";
-import { trafficShares, totalOrders } from "../../data/charts";
+import { SalesValueWidget, SalesValueWidgetPhone } from "../../components/Widgets";
 
 const valueConversion = (value) => {
   var suffixes = ["", "k", "m", "b", "t"];
@@ -23,11 +18,48 @@ export default () => {
   const [views, setViews] = useState([]);
   const [clicks, setClicks] = useState([]);
   const [traffics, setTraffics] = useState([]);
+  const [viewThismonth, setViewThismonth] = useState(0);
+  const [viewThisweek, setViewThisweek] = useState(0);
+  const [viewThistoday, setViewThistoday] = useState(0);
+  const [clickThismonth, setClickThismonth] = useState(0);
+  const [clickThisweek, setClickThisweek] = useState(0);
+  const [clickThistoday, setClickThistoday] = useState(0);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscount/june`)
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthismonth/june`)
       .then(function (res) {
-        const str = res.data[0].views || 0;
+        setViewThismonth(valueConversion(res.data[0].counts))
+      });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthisweek/june`)
+      .then(function (res) {
+        setViewThisweek(valueConversion(res.data[0].counts))
+      });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthistoday/june`)
+      .then(function (res) {
+        setViewThistoday(valueConversion(res.data[0].counts))
+      });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickthismonth/june`)
+      .then(function (res) {
+        setClickThismonth(valueConversion(res.data[0].counts))
+      });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickthisweek/june`)
+      .then(function (res) {
+        setClickThisweek(valueConversion(res.data[0].counts))
+      });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickthistoday/june`)
+      .then(function (res) {
+        setClickThistoday(valueConversion(res.data[0].counts))
+      });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthismonth/june`)
+      .then(function (res) {
+        const str = res.data[0].counts || 0;
         setViews(valueConversion(str))
       });
 
@@ -63,27 +95,6 @@ export default () => {
 
   return (
     <>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <Dropdown className="btn-toolbar">
-          <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
-            <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faTasks} className="me-2" /> New Task
-            </Dropdown.Item>
-            <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" /> Upload Files
-            </Dropdown.Item>
-            <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faUserShield} className="me-2" /> Preview Security
-            </Dropdown.Item>
-
-            <Dropdown.Divider />
-
-            <Dropdown.Item className="fw-bold">
-              <FontAwesomeIcon icon={faRocket} className="text-danger me-2" /> Upgrade to Pro
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
 
       <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
@@ -93,38 +104,59 @@ export default () => {
             percentage={10.57}
           />
         </Col>
-        <Col xs={12} className="mb-4 d-sm-none">
-          <SalesValueWidgetPhone
-            title="Sales Value"
-            value="10,567"
-            percentage={10.57}
-          />
+
+        <Col xs={12} sm={6} xl={4} className="mb-3">
+          <Card border="light" className="p-0">
+            <Card.Body className="pb-3">
+              <Card.Title>View This Month</Card.Title>
+              <Card.Text className="text-gray mb-2"><h1>{viewThismonth}</h1></Card.Text>
+            </Card.Body>
+          </Card>
         </Col>
 
-        <Col xs={12} sm={6} xl={6} className="mb-4">
-          <Row>
-            <Col xs={12} className="mb-4">
-              <CounterWidget
-                category="Views"
-                title={clicks}
-                period="Feb 1 - Apr 1"
-                percentage={18.2}
-                icon={faChartLine}
-                iconColor="shape-secondary"
-                className="mb-4"
-              />
-            </Col>
-            <Col xs={12} className="mb-4">
-              <PageVisitsTable />
-            </Col>
-          </Row>
-
+        <Col xs={12} sm={6} xl={4} className="mb-3">
+          <Card border="light" className="p-0">
+            <Card.Body className="pb-3">
+              <Card.Title>View This Week</Card.Title>
+              <Card.Text className="text-gray mb-2"><h1>{viewThisweek}</h1></Card.Text>
+            </Card.Body>
+          </Card>
         </Col>
 
-        <Col xs={12} sm={6} xl={6} className="mb-4">
-          <CircleChartWidget
-            title="Traffic Share"
-            data={traffics} />
+        <Col xs={12} sm={6} xl={4} className="mb-3">
+          <Card border="light" className="p-0">
+            <Card.Body className="pb-3">
+              <Card.Title>View Today</Card.Title>
+              <Card.Text className="text-gray mb-2"><h1>{viewThistoday}</h1></Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col xs={12} sm={6} xl={4} className="mb-3">
+          <Card border="light" className="p-0">
+            <Card.Body className="pb-3">
+              <Card.Title>Click This Month</Card.Title>
+              <Card.Text className="text-gray mb-2"><h1>{clickThismonth}</h1></Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col xs={12} sm={6} xl={4} className="mb-3">
+          <Card border="light" className="p-0">
+            <Card.Body className="pb-3">
+              <Card.Title>Click This Week</Card.Title>
+              <Card.Text className="text-gray mb-2"><h1>{clickThisweek}</h1></Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col xs={12} sm={6} xl={4} className="mb-3">
+          <Card border="light" className="p-0">
+            <Card.Body className="pb-3">
+              <Card.Title>Click Today</Card.Title>
+              <Card.Text className="text-gray mb-2"><h1>{clickThistoday}</h1></Card.Text>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
 

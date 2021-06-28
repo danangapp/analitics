@@ -7,6 +7,46 @@ import axios from 'axios';
 
 export const SalesValueChart = () => {
   const [data, setData] = useState([]);
+  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsapp/june`)
+    .then(function (res) {
+      var arr1 = [], arr2 = [], arr3 = [];
+      const resData = res.data || [];
+      for (const a in resData) {
+        arr1.push(resData[a].dates || []);
+        arr2.push(resData[a].views || []);
+      }
+      arr3.push(arr2);
+      data.labels = arr1;
+      data.series = arr3;
+      setData(data)
+    });
+
+  const options = {
+    low: 0,
+    showArea: true,
+    fullWidth: true,
+    axisX: {
+      position: 'end',
+      showGrid: true
+    },
+    axisY: {
+      showGrid: false,
+      showLabel: false,
+      labelInterpolationFnc: value => `$${value / 1}k`
+    }
+  };
+
+  const plugins = [
+    ChartistTooltip()
+  ]
+
+  return (
+    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+  );
+};
+
+export const SalesValueChartJune = () => {
+  const [data, setData] = useState([]);
   axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/june`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];

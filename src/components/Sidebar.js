@@ -107,14 +107,14 @@ export default (props = {}) => {
                 <NavItem title="March" link={Routes.March.path} />
               </CollapsableNavItem>
               <CollapsableNavItem eventKey="insights/" title="Insights" icon={faTable}>
-                <NavItem title="Browsers" link={Routes.Browsers.path} />
-                <NavItem title="Pagenames" link={Routes.Pagenames.path} />
-                <NavItem title="Countrys" link={Routes.Countrys.path} />
-                <NavItem title="Devices" link={Routes.Devices.path} />
-                <NavItem title="Durations" link={Routes.Durations.path} />
-                <NavItem title="Pages" link={Routes.Pages.path} />
-                <NavItem title="Sizes" link={Routes.Sizes.path} />
-                <NavItem title="Views" link={Routes.Views.path} />
+                <NavItem title="Browser" link={Routes.Browsers.path} />
+                <NavItem title="Page Name" link={Routes.Pagenames.path} />
+                <NavItem title="Country" link={Routes.Countrys.path} />
+                <NavItem title="Device" link={Routes.Devices.path} />
+                <NavItem title="Duration" link={Routes.Durations.path} />
+                <NavItem title="Page" link={Routes.Pages.path} />
+                <NavItem title="Size" link={Routes.Sizes.path} />
+                <NavItem title="View" link={Routes.Views.path} />
               </CollapsableNavItem>
               <NavItem title="Settings" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Logout" link={Routes.DashboardOverview.path} icon={faChartPie} />

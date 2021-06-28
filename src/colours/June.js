@@ -5,7 +5,7 @@ import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTask
 import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 
-import { CounterWidget, CircleChartWidget, BarChartWidget, TeamMembersWidget, ProgressTrackWidget, RankingWidget, SalesValueWidget, SalesValueWidgetPhone, AcquisitionWidget } from "../components/Widgets";
+import { CounterWidget, CircleChartWidget, SalesValueWidgetJune, SalesValueWidgetPhone, AcquisitionWidget } from "../components/Widgets";
 import { PageVisitsTable } from "../components/Tables";
 import { trafficShares, totalOrders } from "../data/charts";
 
@@ -88,7 +88,7 @@ export default () => {
 
       <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
-          <SalesValueWidget
+          <SalesValueWidgetJune
             title="Users"
             value={views}
             percentage={10.57}
