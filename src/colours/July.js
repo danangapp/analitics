@@ -5,9 +5,8 @@ import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTask
 import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 
-import { CounterWidget, CircleChartWidget, BarChartWidget, TeamMembersWidget, ProgressTrackWidget, RankingWidget, SalesValueWidgetApril, SalesValueWidgetPhone, AcquisitionWidget } from "../components/Widgets";
+import { CounterWidget, CircleChartWidget, SalesValueWidgetJuly, SalesValueWidgetPhone } from "../components/Widgets";
 import { PageVisitsTable } from "../components/Tables";
-import { trafficShares, totalOrders } from "../data/charts";
 
 const valueConversion = (value) => {
   var suffixes = ["", "k", "m", "b", "t"];
@@ -26,20 +25,20 @@ export default () => {
   const [traffics, setTraffics] = useState([]);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscount/april`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscount/july`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setViews(valueConversion(str))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickscount/april`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickscount/july`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setClicks(valueConversion(str))
       });
 
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsdevices/april`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsdevices/july`)
       .then(function (res) {
         var counts = 0;
         for (var a in res.data) {
@@ -88,16 +87,9 @@ export default () => {
 
       <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
-          <SalesValueWidgetApril
+          <SalesValueWidgetJuly
             title="Users"
             value={views}
-            percentage={10.57}
-          />
-        </Col>
-        <Col xs={12} className="mb-4 d-sm-none">
-          <SalesValueWidgetPhone
-            title="Sales Value"
-            value="10,567"
             percentage={10.57}
           />
         </Col>
@@ -116,7 +108,7 @@ export default () => {
               />
             </Col>
             <Col xs={12} className="mb-4">
-              <PageVisitsTable app="colours" edition="april" />
+              <PageVisitsTable app="colours" edition="july" />
             </Col>
           </Row>
 

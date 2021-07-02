@@ -107,7 +107,7 @@ export default () => {
           <Row>
             <Col xs={12} className="mb-4">
               <CounterWidget
-                category="Views"
+                category="Clicks"
                 title={clicks}
                 period="Feb 1 - Apr 1"
                 percentage={18.2}
