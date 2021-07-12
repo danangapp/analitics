@@ -33,42 +33,42 @@ const data = {
 const PieChart = () => (
   <>
     <div className='header'>
-      <h1 className='title'>Per Click</h1>      
+      <h1 className='title'>Per Click</h1>
     </div>
-    
+
     <Container>
       <Row>
         <Col xs={6} className="text-center">
-        	<Card border="light" className="bg-white shadow-sm mb-4">
-      			<Card.Body>
-      				<h5 className="mb-4">March</h5>
-		          	<Pie data={data} />
-      			</Card.Body>
-    		</Card>
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">March</h5>
+              <Pie data={data} />
+            </Card.Body>
+          </Card>
         </Col>
         <Col xs={6} className="text-center">
-        	<Card border="light" className="bg-white shadow-sm mb-4">
-      			<Card.Body>
-      				<h5 className="mb-4">April</h5>
-		          	<Pie data={data} />
-      			</Card.Body>
-    		</Card>
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">April</h5>
+              <Pie data={data} />
+            </Card.Body>
+          </Card>
         </Col>
         <Col xs={6} className="text-center">
-        	<Card border="light" className="bg-white shadow-sm mb-4">
-      			<Card.Body>
-      				<h5 className="mb-4">May</h5>
-		          	<Pie data={data} />
-      			</Card.Body>
-    		</Card>
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">May</h5>
+              <Pie data={data} />
+            </Card.Body>
+          </Card>
         </Col>
         <Col xs={6} className="text-center">
-        	<Card border="light" className="bg-white shadow-sm mb-4">
-      			<Card.Body>
-      				<h5 className="mb-4">June</h5>
-		          	<Pie data={data} />
-      			</Card.Body>
-    		</Card>
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">June</h5>
+              <Pie data={data} />
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>

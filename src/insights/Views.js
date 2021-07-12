@@ -37,6 +37,7 @@ const PieChart = () => {
   const [april, setApril] = useState([]);
   const [may, setMay] = useState([]);
   const [june, setJune] = useState([]);
+  const [july, setJuly] = useState([]);
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/march`)
       .then(function (res) {
@@ -86,6 +87,18 @@ const PieChart = () => {
         data.datasets[0].data = arr2;
         setJune(data);
       });
+    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/july`)
+      .then(function (res) {
+        var arr = [], arr2 = [];
+        for (const a in res.data) {
+          arr.push(res.data[a].dates);
+          arr2.push(res.data[a].views);
+        }
+
+        data.labels = arr;
+        data.datasets[0].data = arr2;
+        setJuly(data);
+      });
   }, []);
 
   return (
@@ -96,6 +109,14 @@ const PieChart = () => {
 
       <Container>
         <Row>
+          <Col xs={6} className="text-center">
+            <Card border="light" className="bg-white shadow-sm mb-4">
+              <Card.Body>
+                <h5 className="mb-4">July</h5>
+                <Bar data={july} options={options} />
+              </Card.Body>
+            </Card>
+          </Col>
           <Col xs={6} className="text-center">
             <Card border="light" className="bg-white shadow-sm mb-4">
               <Card.Body>

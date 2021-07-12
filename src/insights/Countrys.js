@@ -43,6 +43,7 @@ export default () => {
     const [april, setApril] = useState([]);
     const [may, setMay] = useState([]);
     const [june, setJune] = useState([]);
+    const [july, setJuly] = useState([]);
     // console.log(process.env.REACT_APP_BASE_URL)
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/march`)
@@ -93,6 +94,18 @@ export default () => {
                 data.datasets[0].data = arr2;
                 setJune(data);
             });
+        axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/july`)
+            .then(function (res) {
+                var arr = [], arr2 = [];
+                for (const a in res.data) {
+                    arr.push(res.data[a].country);
+                    arr2.push(res.data[a].counts);
+                }
+
+                data.labels = arr;
+                data.datasets[0].data = arr2;
+                setJuly(data);
+            });
     }, []);
 
     return (
@@ -103,6 +116,14 @@ export default () => {
 
             <Container>
                 <Row>
+                    <Col xs={6} className="text-center">
+                        <Card border="light" className="bg-white shadow-sm mb-4">
+                            <Card.Body>
+                                <h5 className="mb-4">July</h5>
+                                <Pie data={july} />
+                            </Card.Body>
+                        </Card>
+                    </Col>
                     <Col xs={6} className="text-center">
                         <Card border="light" className="bg-white shadow-sm mb-4">
                             <Card.Body>
