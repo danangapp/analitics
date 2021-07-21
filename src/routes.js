@@ -8,6 +8,7 @@ export const Routes = {
     May: { path: "/colours/May" },
     June: { path: "/colours/June" },
     July: { path: "/colours/July" },
+    Details: { path: "/detail/Details" },
     Browsers: { path: "/insights/Browsers" },
     Pagenames: { path: "/insights/Pagenames" },
     Countrys: { path: "/insights/Countrys" },
