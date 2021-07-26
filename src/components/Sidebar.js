@@ -117,6 +117,9 @@ export default (props = {}) => {
                 <NavItem title="Size" link={Routes.Sizes.path} />
                 <NavItem title="View" link={Routes.Views.path} />
               </CollapsableNavItem>
+              <CollapsableNavItem eventKey="detail/" title="Detail" icon={faTable}>
+                <NavItem title="Detail" link={Routes.Details.path} />
+              </CollapsableNavItem>
               <NavItem title="Settings" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Logout" link={Routes.DashboardOverview.path} icon={faChartPie} />
             </Nav>

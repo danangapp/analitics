@@ -24,6 +24,7 @@ import April from "../colours/April";
 import May from "../colours/May";
 import June from "../colours/June";
 import July from "../colours/July";
+import Details from "../detail/Details";
 import Browsers from "../insights/Browsers";
 import Pagenames from "../insights/Pagenames";
 import Countrys from "../insights/Countrys";
@@ -131,6 +132,7 @@ export default () => (
     <RouteWithSidebar exact path={Routes.May.path} component={May} />
     <RouteWithSidebar exact path={Routes.June.path} component={June} />
     <RouteWithSidebar exact path={Routes.July.path} component={July} />
+    <RouteWithSidebar exact path={Routes.Details.path} component={Details} />
     <RouteWithSidebar exact path={Routes.Browsers.path} component={Browsers} />
     <RouteWithSidebar exact path={Routes.Pagenames.path} component={Pagenames} />
     <RouteWithSidebar exact path={Routes.Countrys.path} component={Countrys} />

@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export const SalesValueChart = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsapp/june`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsapp/june`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
@@ -47,7 +47,7 @@ export const SalesValueChart = () => {
 
 export const SalesValueChartJuly = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/july`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/july`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
@@ -87,7 +87,7 @@ export const SalesValueChartJuly = () => {
 
 export const SalesValueChartJune = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/june`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/june`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
@@ -127,7 +127,7 @@ export const SalesValueChartJune = () => {
 
 export const SalesValueChartMay = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/may`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/may`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
@@ -167,7 +167,7 @@ export const SalesValueChartMay = () => {
 
 export const SalesValueChartApril = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/april`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/april`)
     .then(function (res) {
       console.log("danang data", res.data);
       var arr1 = [], arr2 = [], arr3 = [];
@@ -208,7 +208,7 @@ export const SalesValueChartApril = () => {
 
 export const SalesValueChartMarch = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/march`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/march`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];

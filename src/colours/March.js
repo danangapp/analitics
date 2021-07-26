@@ -27,20 +27,20 @@ export default () => {
 
   useEffect(() => {
     console.log("danang env", process.env.REACT_APP_BASE_URL)
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscount/march`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscount/march`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setViews(valueConversion(str))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickscount/march`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickscount/march`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setClicks(valueConversion(str))
       });
 
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsdevices/march`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsdevices/march`)
       .then(function (res) {
         var counts = 0;
         for (var a in res.data) {

@@ -27,50 +27,50 @@ export default () => {
 
   useEffect(() => {
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthismonth/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthismonth/june`)
       .then(function (res) {
         setViewThismonth(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthisweek/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthisweek/june`)
       .then(function (res) {
         setViewThisweek(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthistoday/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthistoday/june`)
       .then(function (res) {
         setViewThistoday(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickthismonth/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickthismonth/june`)
       .then(function (res) {
         setClickThismonth(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickthisweek/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickthisweek/june`)
       .then(function (res) {
         setClickThisweek(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickthistoday/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickthistoday/june`)
       .then(function (res) {
         setClickThistoday(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewthismonth/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthismonth/june`)
       .then(function (res) {
         const str = res.data[0].counts || 0;
         setViews(valueConversion(str))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickscount/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickscount/june`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setClicks(valueConversion(str))
       });
 
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsdevices/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsdevices/june`)
       .then(function (res) {
         var counts = 0;
         for (var a in res.data) {

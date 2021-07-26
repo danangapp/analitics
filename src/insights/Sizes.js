@@ -44,7 +44,7 @@ export default () => {
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsizes/march`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsizes/march`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -56,7 +56,7 @@ export default () => {
         data.datasets[0].data = arr2;
         setMarch(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsizes/april`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsizes/april`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -68,7 +68,7 @@ export default () => {
         data.datasets[0].data = arr2;
         setApril(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsizes/may`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsizes/may`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -80,7 +80,7 @@ export default () => {
         data.datasets[0].data = arr2;
         setMay(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsizes/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsizes/june`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -92,7 +92,7 @@ export default () => {
         data.datasets[0].data = arr2;
         setJune(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsizes/july`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsizes/july`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {

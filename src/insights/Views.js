@@ -39,7 +39,7 @@ const PieChart = () => {
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/march`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/march`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -51,7 +51,7 @@ const PieChart = () => {
         data.datasets[0].data = arr2;
         setMarch(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/april`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/april`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -63,7 +63,7 @@ const PieChart = () => {
         data.datasets[0].data = arr2;
         setApril(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/may`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/may`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -75,7 +75,7 @@ const PieChart = () => {
         data.datasets[0].data = arr2;
         setMay(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/june`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {
@@ -87,7 +87,7 @@ const PieChart = () => {
         data.datasets[0].data = arr2;
         setJune(data);
       });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/views/july`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/july`)
       .then(function (res) {
         var arr = [], arr2 = [];
         for (const a in res.data) {

@@ -18,6 +18,30 @@ var columnCountrys = [
   { title: 'Count', prop: 'counts' }
 ];
 
+var columnDevices = [
+  { title: 'No', prop: 'no' },
+  { title: 'Device', prop: 'devices' },
+  { title: 'Count', prop: 'counts' }
+];
+
+var columnSizes = [
+  { title: 'No', prop: 'no' },
+  { title: 'Size', prop: 'sizes' },
+  { title: 'Count', prop: 'counts' }
+];
+
+var columnPages = [
+  { title: 'No', prop: 'no' },
+  { title: 'Page', prop: 'page' },
+  { title: 'Count', prop: 'clicks' }
+];
+
+var columnPageName = [
+  { title: 'No', prop: 'no' },
+  { title: 'PageName', prop: 'pagename' },
+  { title: 'Count', prop: 'counts' }
+];
+
 export default () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -26,10 +50,9 @@ export default () => {
   var columns;
 
   const startApps = () => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/detail/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
       .then(function (res) {
-        // console.log(res.data[0]);
-        setData(res.data[0]);
+        setData(res.data);
       });
   }
 
@@ -45,12 +68,20 @@ export default () => {
     setMenu(event.target.value);
   }
 
-  if (menu == "viewsbrowsersdetail") {
+  if (menu === "viewsbrowsersdetail") {
     columns = columnBrowsers;
-  } else if (menu == "viewscountrysdetail") {
+  } else if (menu === "viewscountrysdetail") {
     columns = columnCountrys;
+  } else if (menu === "viewsdevicesdetail") {
+    columns = columnDevices;
+  } else if (menu === "viewspagesdetail") {
+    columns = columnPages;
+  } else if (menu === "viewspagenamesdetail") {
+    columns = columnPageName;
+  } else if (menu === "viewssizesdetail") {
+    columns = columnSizes;
   }
-  console.log(menu)
+  console.log("danang kesini", columns)
 
   return (
     <>

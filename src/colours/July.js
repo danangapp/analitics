@@ -25,20 +25,20 @@ export default () => {
   const [traffics, setTraffics] = useState([]);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscount/july`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscount/july`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setViews(valueConversion(str))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/clickscount/july`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickscount/july`)
       .then(function (res) {
         const str = res.data[0].views || 0;
         setClicks(valueConversion(str))
       });
 
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewsdevices/july`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsdevices/july`)
       .then(function (res) {
         var counts = 0;
         for (var a in res.data) {

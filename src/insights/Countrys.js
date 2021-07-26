@@ -46,7 +46,7 @@ export default () => {
     const [july, setJuly] = useState([]);
     // console.log(process.env.REACT_APP_BASE_URL)
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/march`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscountrys/march`)
             .then(function (res) {
                 var arr = [], arr2 = [];
                 for (const a in res.data) {
@@ -58,7 +58,7 @@ export default () => {
                 data.datasets[0].data = arr2;
                 setMarch(data);
             });
-        axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/april`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscountrys/april`)
             .then(function (res) {
                 var arr = [], arr2 = [];
                 for (const a in res.data) {
@@ -70,7 +70,7 @@ export default () => {
                 data.datasets[0].data = arr2;
                 setApril(data);
             });
-        axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/may`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscountrys/may`)
             .then(function (res) {
                 var arr = [], arr2 = [];
                 for (const a in res.data) {
@@ -82,7 +82,7 @@ export default () => {
                 data.datasets[0].data = arr2;
                 setMay(data);
             });
-        axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/june`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscountrys/june`)
             .then(function (res) {
                 var arr = [], arr2 = [];
                 for (const a in res.data) {
@@ -94,7 +94,7 @@ export default () => {
                 data.datasets[0].data = arr2;
                 setJune(data);
             });
-        axios.get(`${process.env.REACT_APP_BASE_URL}/colours/viewscountrys/july`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscountrys/july`)
             .then(function (res) {
                 var arr = [], arr2 = [];
                 for (const a in res.data) {
