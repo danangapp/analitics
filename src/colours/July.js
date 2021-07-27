@@ -20,21 +20,26 @@ const valueConversion = (value) => {
 }
 
 export default () => {
-  const [views, setViews] = useState([]);
-  const [clicks, setClicks] = useState([]);
-  const [traffics, setTraffics] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscount/july`)
       .then(function (res) {
         const str = res.data[0].views || 0;
-        setViews(valueConversion(str))
+        // setViews(valueConversion(str))
+        const strings = "views";
+        setData(current => {
+          return ({ ...current, [strings]: valueConversion(str) })
+        })
       });
 
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickscount/july`)
       .then(function (res) {
         const str = res.data[0].views || 0;
-        setClicks(valueConversion(str))
+        const strings = "clicks";
+        setData(current => {
+          return ({ ...current, [strings]: valueConversion(str) })
+        })
       });
 
 
@@ -56,10 +61,32 @@ export default () => {
           obj.icon = "faDesktop";
           arr.push(obj);
         }
+        const strings = "traffics";
+        setData(current => {
+          return ({ ...current, [strings]: arr })
+        })
+      });
 
-        setTraffics(arr);
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/july`)
+      .then(function (res) {
+        var arr1 = [], arr2 = [], arr3 = [];
+        const resData = res.data || [];
+        for (const a in resData) {
+          if (resData[a].edition === "july") {
+            arr1.push(resData[a].dates || []);
+            arr2.push(resData[a].views || []);
+          }
+        }
+        arr3.push(arr2);
+        data.labels = arr1;
+        data.series = arr3;
+        const strings = "data";
+        setData(current => {
+          return ({ ...current, [strings]: data })
+        })
       });
   }, []);
+  console.log("ola", data)
 
   return (
     <>
@@ -89,8 +116,9 @@ export default () => {
         <Col xs={12} className="mb-4 d-none d-sm-block">
           <SalesValueWidgetJuly
             title="Users"
-            value={views}
+            value={data.views}
             percentage={10.57}
+            data={data.data}
           />
         </Col>
 
@@ -99,7 +127,7 @@ export default () => {
             <Col xs={12} className="mb-4">
               <CounterWidget
                 category="Clicks"
-                title={clicks}
+                title={data.clicks}
                 period="Feb 1 - Apr 1"
                 percentage={18.2}
                 icon={faChartLine}
@@ -117,7 +145,7 @@ export default () => {
         <Col xs={12} sm={6} xl={6} className="mb-4">
           <CircleChartWidget
             title="Traffic Share"
-            data={traffics} />
+            data={data.traffics} />
         </Col>
       </Row>
 

@@ -329,7 +329,6 @@ export const SalesValueWidgetJuly = (props) => {
   const { title, value, percentage } = props;
   const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
   const percentageColor = percentage < 0 ? "text-danger" : "text-success";
-
   return (
     <Card className="bg-secondary-alt shadow-sm">
       <Card.Header className="d-flex flex-row align-items-center flex-0">
@@ -341,7 +340,7 @@ export const SalesValueWidgetJuly = (props) => {
         </div>
       </Card.Header>
       <Card.Body className="p-2">
-        <SalesValueChartJuly />
+        <SalesValueChartJuly data={props.data} />
       </Card.Body>
     </Card>
   );

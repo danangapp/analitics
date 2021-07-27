@@ -45,25 +45,7 @@ export const SalesValueChart = () => {
   );
 };
 
-export const SalesValueChartJuly = () => {
-  const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/july`)
-    .then(function (res) {
-      var arr1 = [], arr2 = [], arr3 = [];
-      const resData = res.data || [];
-      for (const a in resData) {
-        if (resData[a].edition === "july") {
-          arr1.push(resData[a].dates || []);
-          arr2.push(resData[a].views || []);
-        }
-      }
-      arr3.push(arr2);
-      data.labels = arr1;
-      data.series = arr3;
-      console.log("danang", data)
-      setData(data)
-    });
-
+export const SalesValueChartJuly = (props) => {
   const options = {
     low: 0,
     showArea: true,
@@ -84,7 +66,7 @@ export const SalesValueChartJuly = () => {
   ]
 
   return (
-    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={props.data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
@@ -95,8 +77,10 @@ export const SalesValueChartJune = () => {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
       for (const a in resData) {
-        arr1.push(resData[a].dates || []);
-        arr2.push(resData[a].views || []);
+        if (resData[a].edition === "june") {
+          arr1.push(resData[a].dates || []);
+          arr2.push(resData[a].views || []);
+        }
       }
       arr3.push(arr2);
       data.labels = arr1;
@@ -135,8 +119,10 @@ export const SalesValueChartMay = () => {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
       for (const a in resData) {
-        arr1.push(resData[a].dates || []);
-        arr2.push(resData[a].views || []);
+        if (resData[a].edition === "may") {
+          arr1.push(resData[a].dates || []);
+          arr2.push(resData[a].views || []);
+        }
       }
       arr3.push(arr2);
       data.labels = arr1;
@@ -172,12 +158,13 @@ export const SalesValueChartApril = () => {
   const [data, setData] = useState([]);
   axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/april`)
     .then(function (res) {
-      console.log("danang data", res.data);
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
       for (const a in resData) {
-        arr1.push(resData[a].dates || []);
-        arr2.push(resData[a].views || []);
+        if (resData[a].edition === "april") {
+          arr1.push(resData[a].dates || []);
+          arr2.push(resData[a].views || []);
+        }
       }
       arr3.push(arr2);
       data.labels = arr1;
@@ -216,8 +203,10 @@ export const SalesValueChartMarch = () => {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
       for (const a in resData) {
-        arr1.push(resData[a].dates || []);
-        arr2.push(resData[a].views || []);
+        if (resData[a].edition === "march") {
+          arr1.push(resData[a].dates || []);
+          arr2.push(resData[a].views || []);
+        }
       }
       arr3.push(arr2);
       data.labels = arr1;

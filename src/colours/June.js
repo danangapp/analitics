@@ -21,21 +21,25 @@ const valueConversion = (value) => {
 }
 
 export default () => {
-  const [views, setViews] = useState([]);
-  const [clicks, setClicks] = useState([]);
-  const [traffics, setTraffics] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewscount/june`)
       .then(function (res) {
         const str = res.data[0].views || 0;
-        setViews(valueConversion(str))
+        const strings = "views";
+        setData(current => {
+          return ({ ...current, [strings]: valueConversion(str) })
+        })
       });
 
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/clickscount/june`)
       .then(function (res) {
         const str = res.data[0].views || 0;
-        setClicks(valueConversion(str))
+        const strings = "clicks";
+        setData(current => {
+          return ({ ...current, [strings]: valueConversion(str) })
+        })
       });
 
 
@@ -58,7 +62,10 @@ export default () => {
           arr.push(obj);
         }
 
-        setTraffics(arr);
+        const strings = "traffics";
+        setData(current => {
+          return ({ ...current, [strings]: arr })
+        })
       });
   }, []);
 
@@ -90,7 +97,7 @@ export default () => {
         <Col xs={12} className="mb-4 d-none d-sm-block">
           <SalesValueWidgetJune
             title="Users"
-            value={views}
+            value={data.views}
             percentage={10.57}
           />
         </Col>
@@ -107,7 +114,7 @@ export default () => {
             <Col xs={12} className="mb-4">
               <CounterWidget
                 category="Clicks"
-                title={clicks}
+                title={data.clicks}
                 period="Feb 1 - Apr 1"
                 percentage={18.2}
                 icon={faChartLine}
@@ -125,7 +132,7 @@ export default () => {
         <Col xs={12} sm={6} xl={6} className="mb-4">
           <CircleChartWidget
             title="Traffic Share"
-            data={traffics} />
+            data={data.traffics} />
         </Col>
       </Row>
 
