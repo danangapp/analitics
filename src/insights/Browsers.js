@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Col, Row, Card, Image, Button, Container, ListGroup, Tooltip, OverlayTrigger, Form, Navbar, Nav, Badge } from '@themesberg/react-bootstrap';
+import { Col, Row, Card, Container } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 
 
@@ -44,68 +44,48 @@ export default () => {
   const [may, setMay] = useState([]);
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
-  // console.log(process.env.REACT_APP_BASE_URL)
+  // const monthz = ["march", "april", "may", "june", "july"];
+
+  const getData = (res, edition) => {
+    var arr = [], arr2 = [];
+    for (const a in res.data) {
+      if (res.data[a].edition === edition) {
+        arr.push(res.data[a].browser);
+        arr2.push(res.data[a].counts);
+      }
+    }
+
+    data.labels = arr;
+    data.datasets[0].data = arr2;
+    return data
+  }
+
+  const viewChart = (edition, data) => (
+    <Col xs={6} className="text-center">
+      <Card border="light" className="bg-white shadow-sm mb-4">
+        <Card.Body>
+          <h5 className="mb-4">{edition}</h5>
+          <Pie data={data} />
+        </Card.Body>
+      </Card>
+    </Col>
+  )
+
+  const conChart = () => {
+    return (
+      viewChart("july", july)
+    )
+  }
+
   useEffect(() => {
+
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/july`)
       .then(function (res) {
-        var arr = [], arr2 = [];
-        for (const a in res.data) {
-          arr.push(res.data[a].browser);
-          arr2.push(res.data[a].counts);
-        }
-
-        data.labels = arr;
-        data.datasets[0].data = arr2;
-        setJuly(data);
-      });
-
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/march`)
-      .then(function (res) {
-        var arr = [], arr2 = [];
-        for (const a in res.data) {
-          arr.push(res.data[a].browser);
-          arr2.push(res.data[a].counts);
-        }
-
-        data.labels = arr;
-        data.datasets[0].data = arr2;
-        setMarch(data);
-      });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/april`)
-      .then(function (res) {
-        var arr = [], arr2 = [];
-        for (const a in res.data) {
-          arr.push(res.data[a].browser);
-          arr2.push(res.data[a].counts);
-        }
-
-        data.labels = arr;
-        data.datasets[0].data = arr2;
-        setApril(data);
-      });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/may`)
-      .then(function (res) {
-        var arr = [], arr2 = [];
-        for (const a in res.data) {
-          arr.push(res.data[a].browser);
-          arr2.push(res.data[a].counts);
-        }
-
-        data.labels = arr;
-        data.datasets[0].data = arr2;
-        setMay(data);
-      });
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/june`)
-      .then(function (res) {
-        var arr = [], arr2 = [];
-        for (const a in res.data) {
-          arr.push(res.data[a].browser);
-          arr2.push(res.data[a].counts);
-        }
-
-        data.labels = arr;
-        data.datasets[0].data = arr2;
-        setJune(data);
+        setMarch(getData(res, "march"));
+        setApril(getData(res, "april"));
+        setMay(getData(res, "may"));
+        setJune(getData(res, "june"));
+        setJuly(getData(res, "july"));
       });
   }, []);
 
@@ -117,49 +97,11 @@ export default () => {
 
       <Container>
         <Row>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">July</h5>
-                <Pie data={july} />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">June</h5>
-                <Pie data={june} />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">May</h5>
-                <Pie data={may} />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">April</h5>
-                <Pie data={april} />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={6} className="text-center">
-            <Card border="light" className="bg-white shadow-sm mb-4">
-              <Card.Body>
-                <h5 className="mb-4">March</h5>
-                <Pie data={march} />
-              </Card.Body>
-            </Card>
-          </Col>
-
-
-
+          {viewChart("July", july)}
+          {viewChart("June", june)}
+          {viewChart("May", may)}
+          {viewChart("April", april)}
+          {viewChart("March", march)}
         </Row>
       </Container>
     </>
