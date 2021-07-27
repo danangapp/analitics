@@ -5,7 +5,7 @@ import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTask
 import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 
-import { CounterWidget, CircleChartWidget, SalesValueWidgetJuly, SalesValueWidgetPhone } from "../components/Widgets";
+import { CounterWidget, CircleChartWidget, SalesValueWidgetJuly } from "../components/Widgets";
 import { PageVisitsTable } from "../components/Tables";
 
 const valueConversion = (value) => {
@@ -86,7 +86,7 @@ export default () => {
         })
       });
   }, []);
-  console.log("ola", data)
+  // console.log("ola", data)
 
   return (
     <>

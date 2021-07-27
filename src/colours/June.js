@@ -67,7 +67,28 @@ export default () => {
           return ({ ...current, [strings]: arr })
         })
       });
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/june`)
+      .then(function (res) {
+        var arr1 = [], arr2 = [], arr3 = [];
+        const resData = res.data || [];
+        for (const a in resData) {
+          if (resData[a].edition === "june") {
+            arr1.push(resData[a].dates || []);
+            arr2.push(resData[a].views || []);
+          }
+        }
+        arr3.push(arr2);
+        data.labels = arr1;
+        data.series = arr3;
+        const strings = "data";
+        setData(current => {
+          return ({ ...current, [strings]: data })
+        })
+      });
+
   }, []);
+  console.log("ola", data)
 
   return (
     <>
@@ -99,6 +120,7 @@ export default () => {
             title="Users"
             value={data.views}
             percentage={10.57}
+            data={data.data}
           />
         </Col>
         <Col xs={12} className="mb-4 d-sm-none">

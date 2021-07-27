@@ -362,7 +362,7 @@ export const SalesValueWidgetJune = (props) => {
         </div>
       </Card.Header>
       <Card.Body className="p-2">
-        <SalesValueChartJune />
+        <SalesValueChartJune data={props.data} />
       </Card.Body>
     </Card>
   );
@@ -384,7 +384,7 @@ export const SalesValueWidgetMay = (props) => {
         </div>
       </Card.Header>
       <Card.Body className="p-2">
-        <SalesValueChartMay />
+        <SalesValueChartMay data={props.data} />
       </Card.Body>
     </Card>
   );
@@ -406,7 +406,7 @@ export const SalesValueWidgetApril = (props) => {
         </div>
       </Card.Header>
       <Card.Body className="p-2">
-        <SalesValueChartApril />
+        <SalesValueChartApril data={props.data} />
       </Card.Body>
     </Card>
   );
@@ -428,7 +428,7 @@ export const SalesValueWidgetMarch = (props) => {
         </div>
       </Card.Header>
       <Card.Body className="p-2">
-        <SalesValueChartMarch />
+        <SalesValueChartMarch data={props.data} />
       </Card.Body>
     </Card>
   );

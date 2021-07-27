@@ -70,23 +70,11 @@ export const SalesValueChartJuly = (props) => {
   );
 };
 
-export const SalesValueChartJune = () => {
-  const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/june`)
-    .then(function (res) {
-      var arr1 = [], arr2 = [], arr3 = [];
-      const resData = res.data || [];
-      for (const a in resData) {
-        if (resData[a].edition === "june") {
-          arr1.push(resData[a].dates || []);
-          arr2.push(resData[a].views || []);
-        }
-      }
-      arr3.push(arr2);
-      data.labels = arr1;
-      data.series = arr3;
-      setData(data)
-    });
+export const SalesValueChartJune = (props) => {
+  // console.log("june", props.data)
+  const plugins = [
+    ChartistTooltip()
+  ]
 
   const options = {
     low: 0,
@@ -103,32 +91,13 @@ export const SalesValueChartJune = () => {
     }
   };
 
-  const plugins = [
-    ChartistTooltip()
-  ]
-
   return (
-    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={props.data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
-export const SalesValueChartMay = () => {
+export const SalesValueChartMay = (props) => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/may`)
-    .then(function (res) {
-      var arr1 = [], arr2 = [], arr3 = [];
-      const resData = res.data || [];
-      for (const a in resData) {
-        if (resData[a].edition === "may") {
-          arr1.push(resData[a].dates || []);
-          arr2.push(resData[a].views || []);
-        }
-      }
-      arr3.push(arr2);
-      data.labels = arr1;
-      data.series = arr3;
-      setData(data)
-    });
 
   const options = {
     low: 0,
@@ -150,27 +119,11 @@ export const SalesValueChartMay = () => {
   ]
 
   return (
-    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={props.data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
-export const SalesValueChartApril = () => {
-  const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/april`)
-    .then(function (res) {
-      var arr1 = [], arr2 = [], arr3 = [];
-      const resData = res.data || [];
-      for (const a in resData) {
-        if (resData[a].edition === "april") {
-          arr1.push(resData[a].dates || []);
-          arr2.push(resData[a].views || []);
-        }
-      }
-      arr3.push(arr2);
-      data.labels = arr1;
-      data.series = arr3;
-      setData(data)
-    });
+export const SalesValueChartApril = (props) => {
 
   const options = {
     low: 0,
@@ -192,28 +145,11 @@ export const SalesValueChartApril = () => {
   ]
 
   return (
-    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={props.data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
-export const SalesValueChartMarch = () => {
-  const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views/march`)
-    .then(function (res) {
-      var arr1 = [], arr2 = [], arr3 = [];
-      const resData = res.data || [];
-      for (const a in resData) {
-        if (resData[a].edition === "march") {
-          arr1.push(resData[a].dates || []);
-          arr2.push(resData[a].views || []);
-        }
-      }
-      arr3.push(arr2);
-      data.labels = arr1;
-      data.series = arr3;
-      setData(data)
-    });
-
+export const SalesValueChartMarch = (props) => {
   const options = {
     low: 0,
     showArea: true,
@@ -234,7 +170,7 @@ export const SalesValueChartMarch = () => {
   ]
 
   return (
-    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={props.data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
