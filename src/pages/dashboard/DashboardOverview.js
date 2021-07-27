@@ -57,7 +57,7 @@ export default () => {
         setClickThistoday(valueConversion(res.data[0].counts))
       });
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthismonth/june`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthismonth/july`)
       .then(function (res) {
         const str = res.data[0].counts || 0;
         setViews(valueConversion(str))

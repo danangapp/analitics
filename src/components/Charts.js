@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export const SalesValueChart = () => {
   const [data, setData] = useState([]);
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsapp/june`)
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsapp/july`)
     .then(function (res) {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
@@ -52,12 +52,15 @@ export const SalesValueChartJuly = () => {
       var arr1 = [], arr2 = [], arr3 = [];
       const resData = res.data || [];
       for (const a in resData) {
-        arr1.push(resData[a].dates || []);
-        arr2.push(resData[a].views || []);
+        if (resData[a].edition === "july") {
+          arr1.push(resData[a].dates || []);
+          arr2.push(resData[a].views || []);
+        }
       }
       arr3.push(arr2);
       data.labels = arr1;
       data.series = arr3;
+      console.log("danang", data)
       setData(data)
     });
 
