@@ -56,12 +56,19 @@ export default () => {
       });
   }
 
-  useEffect(() => {
-    startApps();
-  }, []);
+  const reports = () => {
+    console.log("lewat sini");
+    axios.get(`${process.env.REACT_APP_BASE_URL}/report/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
+      .then(function (res) {
+        setData(res.data);
+      });
+  }
 
-  const handleClick = () => {
-    startApps();
+  const handleClick = (e) => {
+    if (e === "submit")
+      startApps();
+    else
+      reports();
   }
 
   const onMenu = (event) => {
@@ -81,7 +88,6 @@ export default () => {
   } else if (menu === "viewssizesdetail") {
     columns = columnSizes;
   }
-  console.log("danang kesini", columns)
 
   return (
     <>
@@ -100,7 +106,8 @@ export default () => {
         </Form.Select>
         <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-        <Button variant="primary" onClick={() => handleClick()}>Submit</Button>
+        <Button variant="primary" onClick={() => handleClick("submit")}>Submit</Button>
+        <Button variant="primary" onClick={() => handleClick("export")}>Export</Button>
         <DataTable
           keys="no"
           columns={columns || []}
