@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faChartArea, faChartBar, faChartLine, faFlagUsa, faFolderOpen, faGlobeEurope, faPaperclip, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { faAngular, faBootstrap, faReact, faVuejs } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Card, Image, Button, ListGroup, ProgressBar } from '@themesberg/react-bootstrap';
-import { CircleChart, BarChart, SalesValueChart, SalesValueChartJuly, SalesValueChartJune, SalesValueChartMay, SalesValueChartApril, SalesValueChartMarch, SalesValueChartphone } from "./Charts";
+import { CircleChart, BarChart, SalesValueChart, SalesValueChartAugust, SalesValueChartJuly, SalesValueChartJune, SalesValueChartMay, SalesValueChartApril, SalesValueChartMarch, SalesValueChartphone } from "./Charts";
 
 import Profile1 from "../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
@@ -320,6 +320,27 @@ export const SalesValueWidget = (props) => {
       </Card.Header>
       <Card.Body className="p-2">
         <SalesValueChart />
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const SalesValueWidgetAugust = (props) => {
+  const { title, value, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+  return (
+    <Card className="bg-secondary-alt shadow-sm">
+      <Card.Header className="d-flex flex-row align-items-center flex-0">
+        <div className="d-block">
+          <h5 className="fw-normal mb-2">
+            {title}
+          </h5>
+          <h3>{value}</h3>
+        </div>
+      </Card.Header>
+      <Card.Body className="p-2">
+        <SalesValueChartAugust data={props.data} />
       </Card.Body>
     </Card>
   );

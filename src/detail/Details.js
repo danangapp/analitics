@@ -57,10 +57,9 @@ export default () => {
   }
 
   const reports = () => {
-    console.log("lewat sini");
     axios.get(`${process.env.REACT_APP_BASE_URL}/report/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
       .then(function (res) {
-        setData(res.data);
+
       });
   }
 

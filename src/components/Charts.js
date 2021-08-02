@@ -45,6 +45,31 @@ export const SalesValueChart = () => {
   );
 };
 
+export const SalesValueChartAugust = (props) => {
+  const options = {
+    low: 0,
+    showArea: true,
+    fullWidth: true,
+    axisX: {
+      position: 'end',
+      showGrid: true
+    },
+    axisY: {
+      showGrid: false,
+      showLabel: false,
+      labelInterpolationFnc: value => `$${value / 1}k`
+    }
+  };
+
+  const plugins = [
+    ChartistTooltip()
+  ]
+
+  return (
+    <Chartist data={props.data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
+  );
+};
+
 export const SalesValueChartJuly = (props) => {
   const options = {
     low: 0,
