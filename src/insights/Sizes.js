@@ -43,6 +43,7 @@ export default () => {
   const [may, setMay] = useState([]);
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
+  const [august, setAugust] = useState([]);
 
 
   const getData = (res, edition) => {
@@ -78,6 +79,7 @@ export default () => {
         setMay(getData(res, "may"));
         setJune(getData(res, "june"));
         setJuly(getData(res, "july"));
+        setAugust(getData(res, "august"));
       });
   }, []);
 
@@ -89,6 +91,7 @@ export default () => {
 
       <Container>
         <Row>
+          {viewChart("August", august)}
           {viewChart("July", july)}
           {viewChart("June", june)}
           {viewChart("May", may)}
