@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const viewChart = (edition, data) => (
   <Col>
-    <h3>{edition}</h3>
+    <h3 className="text-center">{edition}</h3>
     <ResponsiveContainer width={'100%'} height={400}>
       <PieChart width={400} height={400}>
         <Pie
@@ -117,7 +117,7 @@ export default () => {
   return (
     <>
       <div className='header'>
-        <h1 className='title'>Per PageName</h1>
+        <h1 className='title'>PageName</h1>
       </div>
 
       <Container>

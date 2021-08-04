@@ -96,7 +96,7 @@ export default () => {
   return (
     <>
       <div className='header'>
-        <h1 className='title'>Per System</h1>
+        <h1 className='title'>System</h1>
       </div>
 
       <Container>

@@ -32,7 +32,7 @@ const CustomizedAxisTick = (props) => {
 
 const viewChart = (edition, data) => (
   <Col>
-    <h3>{edition}</h3>
+    <h3 className="text-center">{edition}</h3>
     <ResponsiveContainer width={'100%'} height={400}>
       <AreaChart
         width={500}
@@ -99,7 +99,7 @@ export default () => {
   return (
     <>
       <div className='header'>
-        <h1 className='title'>Per Durations</h1>
+        <h1 className='title'>Durations</h1>
       </div>
 
       <Container>

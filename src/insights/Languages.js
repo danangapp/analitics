@@ -33,7 +33,7 @@ const data = {
 const PieChart = () => (
   <>
     <div className='header'>
-      <h1 className='title'>Per Click</h1>
+      <h1 className='title'>Click</h1>
     </div>
 
     <Container>
