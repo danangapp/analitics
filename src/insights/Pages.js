@@ -1,32 +1,80 @@
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Col, Row, Card, Image, Button, Container, ListGroup, Tooltip, OverlayTrigger, Form, Navbar, Nav, Badge } from '@themesberg/react-bootstrap';
+import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { Row, Col, Container } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 
-const data = {
-  labels: ['1', '2', '3', '4', '5', '6'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      fill: false,
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgba(255, 99, 132, 0.2)',
-    },
-  ],
+
+const gradientOffset = (data) => {
+  const dataMax = Math.max(...data.map((i) => i.clicks));
+  const dataMin = Math.min(...data.map((i) => i.clicks));
+
+  if (dataMax <= 0) {
+    return 0;
+  }
+  if (dataMin >= 0) {
+    return 1;
+  }
+
+  return dataMax / (dataMax - dataMin);
 };
 
-const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-  },
-};
+const CustomizedAxisTick = (props) => {
+  const { x, y, stroke, payload } = props;
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
+        {payload.value}
+      </text>
+    </g>
+  );
+}
+
+const viewChart = (edition, data) => (
+  <Col>
+    <h3>{edition}</h3>
+    <ResponsiveContainer width={'100%'} height={400}>
+      <AreaChart
+        width={500}
+        height={400}
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="page" tick={<CustomizedAxisTick />} />
+        <YAxis />
+        <Tooltip />
+        <defs>
+          <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset={gradientOffset(data)} stopColor="green" stopOpacity={1} />
+            <stop offset={gradientOffset(data)} stopColor="red" stopOpacity={1} />
+          </linearGradient>
+        </defs>
+        <Area type="monotone" dataKey="clicks" stroke="#000" fill="url(#splitColor)" />
+      </AreaChart>
+    </ResponsiveContainer>
+  </Col>
+)
+
+const RADIAN = Math.PI / 180;
+
+const getData = (res, edition) => {
+  var arr = [];
+  for (const a in res.data) {
+    if (res.data[a].edition === edition) {
+      arr.push(res.data[a]);
+    }
+  }
+
+  return arr;
+}
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default () => {
   const [march, setMarch] = useState([]);
@@ -35,40 +83,9 @@ export default () => {
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
   const [august, setAugust] = useState([]);
-
-  const getData = (res, edition) => {
-    var arr = [], arr2 = [];
-    for (const a in res.data) {
-      if (res.data[a].edition === edition) {
-        arr.push(res.data[a].page);
-        arr2.push(res.data[a].clicks);
-      }
-    }
-
-    data.labels = arr;
-    data.datasets[0].data = arr2;
-    return data
-  }
-
-  const viewChart = (edition, data) => (
-    <Col xs={6} className="text-center">
-      <Card border="light" className="bg-white shadow-sm mb-4">
-        <Card.Body>
-          <h5 className="mb-4">{edition}</h5>
-          <Line data={data} options={options} />
-        </Card.Body>
-      </Card>
-    </Col>
-  )
-
-  const conChart = () => {
-    return (
-      viewChart("july", july)
-    )
-  }
-
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewspages/march`)
+
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewspages/july`)
       .then(function (res) {
         setMarch(getData(res, "march"));
         setApril(getData(res, "april"));
@@ -78,26 +95,21 @@ export default () => {
         setAugust(getData(res, "august"));
       });
   }, []);
-
-
+  // console.log(august);
   return (
     <>
       <div className='header'>
-        <h1 className='title'>Per Page</h1>
+        <h1 className='title'>Per Pages</h1>
       </div>
 
       <Container>
-        <Row>
-          {viewChart("August", august)}
-          {viewChart("July", july)}
-          {viewChart("June", june)}
-          {viewChart("May", may)}
-          {viewChart("April", april)}
-          {viewChart("March", march)}
-        </Row>
+        {viewChart("August", august)}
+        {viewChart("July", july)}
+        {viewChart("June", june)}
+        {viewChart("May", may)}
+        {viewChart("April", april)}
+        {viewChart("March", march)}
       </Container>
     </>
   )
 };
-
-// export default PieChart;

@@ -1,83 +1,106 @@
 import React, { useState, useEffect } from 'react';
-import { Pie } from 'react-chartjs-2';
-import { Col, Row, Card, Container } from '@themesberg/react-bootstrap';
+import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { Row, Col, Container } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 
+const viewChart = (edition, data) => (
+  <Col>
+    <h3>{edition}</h3>
+    <ResponsiveContainer width={'100%'} height={400}>
+      <PieChart width={400} height={400}>
+        <Pie
+          dataKey="counts"
+          isAnimationActive={false}
+          data={data}
+          cx="50%"
+          cy="50%"
+          outerRadius={150}
+          fill="#8884d8"
+          label={renderLabel}
+          onClick={(e) => { console.log(e.value) }}
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        {/* <Legend verticalAlign="top" height={36} /> */}
+        <Tooltip />
+      </PieChart>
+    </ResponsiveContainer>
+  </Col>
+)
 
-var data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+const RADIAN = Math.PI / 180;
+let renderLabel = function (props) {
+  const {
+    cx,
+    cy,
+    midAngle,
+    outerRadius,
+    fill,
+    payload,
+    value,
+  } = props;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 30) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 30;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+
+  return (
+    <g>
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        style={{ fontWeight: "bold" }}
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        textAnchor={textAnchor}
+        fill={fill}
+      >
+        {payload.browser}
+      </text>
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        dy={18}
+        textAnchor={textAnchor}
+        fill="#999"
+      >
+        {value}
+      </text>
+    </g>
+  );
+}
+
+const getData = (res, edition) => {
+  var arr = [];
+  for (const a in res.data) {
+    if (res.data[a].edition === edition) {
+      arr.push(res.data[a]);
+    }
+  }
+
+  return arr;
+}
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default () => {
-  console.log("yaya")
   const [march, setMarch] = useState([]);
   const [april, setApril] = useState([]);
   const [may, setMay] = useState([]);
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
   const [august, setAugust] = useState([]);
-  // const monthz = ["march", "april", "may", "june", "july"];
-
-  const getData = (res, edition) => {
-    var arr = [], arr2 = [];
-    for (const a in res.data) {
-      if (res.data[a].edition === edition) {
-        arr.push(res.data[a].browser);
-        arr2.push(res.data[a].counts);
-      }
-    }
-
-    data.labels = arr;
-    data.datasets[0].data = arr2;
-    return data
-  }
-
-  const viewChart = (edition, data) => (
-    <Col xs={6} className="text-center">
-      <Card border="light" className="bg-white shadow-sm mb-4">
-        <Card.Body>
-          <h5 className="mb-4">{edition}</h5>
-          <Pie data={data} />
-        </Card.Body>
-      </Card>
-    </Col>
-  )
-
-  const conChart = () => {
-    return (
-      viewChart("july", july)
-    )
-  }
-
   useEffect(() => {
 
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/july`)
@@ -101,8 +124,12 @@ export default () => {
         <Row>
           {viewChart("August", august)}
           {viewChart("July", july)}
+        </Row>
+        <Row>
           {viewChart("June", june)}
           {viewChart("May", may)}
+        </Row>
+        <Row>
           {viewChart("April", april)}
           {viewChart("March", march)}
         </Row>
@@ -110,5 +137,3 @@ export default () => {
     </>
   )
 };
-
-// export default PieChart;

@@ -57,14 +57,6 @@ export default () => {
   }
 
   const reports = () => {
-    // var url = window.URL.createObjectURL(blob)
-    // var a = document.createElement('a')
-    // a.href = url
-    // a.download = fileName + type
-    // document.body.appendChild(a)
-    // a.click()
-    // a.remove()
-
     const FileDownload = require('js-file-download');
 
     axios({
