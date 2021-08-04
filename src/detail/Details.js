@@ -64,35 +64,19 @@ export default () => {
     // document.body.appendChild(a)
     // a.click()
     // a.remove()
-    axios.get(`${process.env.REACT_APP_BASE_URL}/report/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
-      .then(function (res) {
-        // var url = window.URL.createObjectURL(res.data)
-        const url = window.URL.createObjectURL(
-          new Blob([res]),
-        );
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = "danang.xlsx"
-        // link.setAttribute(
-        //   'download',
-        //   `danang.xlsx`,
-        // );
 
-        // Append to html link element page
-        document.body.appendChild(link);
+    const FileDownload = require('js-file-download');
 
-        // Start download
-        link.click();
-        link.remove();
+    axios({
+      url: `${process.env.REACT_APP_BASE_URL}/report/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`,
+      method: 'GET',
+      responseType: 'blob', // Important
+    }).then((response) => {
+      FileDownload(response.data, 'report.xlsx');
+    });
 
-        // var a = document.createElement('a')
-        // a.href = url
-        // a.download = "danang.xlsx"
-        // document.body.appendChild(a)
-        // a.click()
-        // a.remove()
-      });
   }
+
 
   const handleClick = (e) => {
     if (e === "submit")

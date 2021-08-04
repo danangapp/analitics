@@ -40,6 +40,7 @@ var data = {
 const getData = (res, edition) => {
     var arr = [], arr2 = [];
     for (const a in res.data) {
+        console.log(res.data[a].edition)
         if (res.data[a].edition === edition) {
             arr.push(res.data[a].country);
             arr2.push(res.data[a].counts);

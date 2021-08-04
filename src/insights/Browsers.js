@@ -87,7 +87,7 @@ export default () => {
         setMay(getData(res, "may"));
         setJune(getData(res, "june"));
         setJuly(getData(res, "july"));
-        setAugust(getData(res, "August"));
+        setAugust(getData(res, "august"));
       });
   }, []);
 
