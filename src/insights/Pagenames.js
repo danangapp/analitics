@@ -92,7 +92,7 @@ const getData = (res, edition) => {
   return arr;
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#fe0088', '#00fef5'];
 
 export default () => {
   const [march, setMarch] = useState([]);

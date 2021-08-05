@@ -1,45 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from '@themesberg/react-bootstrap';
 import axios from 'axios';
-import DatePicker from "react-datepicker";
+import { useLocation } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 var DataTable = require('react-data-components').DataTable;
 
-var columnBrowsers = [
-  { title: 'No', prop: 'no' },
-  { title: 'Browser', prop: 'browser' },
-  { title: 'Count', prop: 'counts' }
-];
-
-var columnCountrys = [
-  { title: 'No', prop: 'no' },
-  { title: 'Country', prop: 'country' },
-  { title: 'Count', prop: 'counts' }
-];
-
-var columnDevices = [
-  { title: 'No', prop: 'no' },
-  { title: 'Device', prop: 'devices' },
-  { title: 'Count', prop: 'counts' }
-];
-
-var columnSizes = [
-  { title: 'No', prop: 'no' },
-  { title: 'Size', prop: 'sizes' },
-  { title: 'Count', prop: 'counts' }
-];
-
-var columnPages = [
-  { title: 'No', prop: 'no' },
+var column = [
+  { title: 'No', prop: 'id' },
+  { title: 'Ip', prop: 'ip' },
+  { title: 'Device', prop: 'device' },
+  { title: 'Duration', prop: 'period' },
   { title: 'Page', prop: 'page' },
-  { title: 'Count', prop: 'clicks' }
-];
-
-var columnPageName = [
-  { title: 'No', prop: 'no' },
-  { title: 'PageName', prop: 'pagename' },
-  { title: 'Count', prop: 'counts' }
+  { title: 'Edition', prop: 'edition' },
+  { title: 'Size', prop: 'size' },
+  { title: 'Country', prop: 'country' }
 ];
 
 export default () => {
@@ -48,9 +22,20 @@ export default () => {
   const [data, setData] = useState([]);
   const [menu, setMenu] = useState([]);
   var columns;
+  const location = useLocation();
+  // console.log("danang location", location.state || "")
 
-  const startApps = () => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/detail/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
+  useEffect(() => {
+    generateTable();
+  }, []);
+
+  const generateTable = () => {
+    axios.post(`${process.env.REACT_APP_BASE_URL}/customreport/`, {
+      "edition": location.state.edition || "august",
+      "startdate": location.state.fromDate || "2021-08-01",
+      "enddate": location.state.endDate || "2021-08-31",
+      "check": location.state.check || "mobile"
+    })
       .then(function (res) {
         setData(res.data);
       });
@@ -69,54 +54,12 @@ export default () => {
 
   }
 
-
-  const handleClick = (e) => {
-    if (e === "submit")
-      startApps();
-    else
-      reports();
-  }
-
-  const onMenu = (event) => {
-    setMenu(event.target.value);
-  }
-
-  if (menu === "viewsbrowsersdetail") {
-    columns = columnBrowsers;
-  } else if (menu === "viewscountrysdetail") {
-    columns = columnCountrys;
-  } else if (menu === "viewsdevicesdetail") {
-    columns = columnDevices;
-  } else if (menu === "viewspagesdetail") {
-    columns = columnPages;
-  } else if (menu === "viewspagenamesdetail") {
-    columns = columnPageName;
-  } else if (menu === "viewssizesdetail") {
-    columns = columnSizes;
-  }
-
   return (
     <>
       <div className='header'>
-        <h1 className='title'>Browser Detail</h1>
-        <Form.Select aria-label="Default select example" onChange={(event) => onMenu(event)}>
-          <option>Menu</option>
-          <option value="viewsbrowsersdetail">Browser</option>
-          <option value="viewscountrysdetail">Country</option>
-          <option value="viewsdevicesdetail">Device</option>
-          <option value="viewsdurationsdetail">Duration</option>
-          <option value="viewspagesdetail">Pages</option>
-          <option value="viewspagenamesdetail">Page Name</option>
-          <option value="viewssizesdetail">Size</option>
-          <option value="viewsdetail">Detail</option>
-        </Form.Select>
-        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-        <Button variant="primary" onClick={() => handleClick("submit")}>Submit</Button>
-        <Button variant="primary" onClick={() => handleClick("export")}>Export</Button>
         <DataTable
           keys="no"
-          columns={columns || []}
+          columns={column || []}
           initialData={data}
           initialPageLength={5}
           initialSortBy={{ order: 'descending' }}
@@ -126,5 +69,3 @@ export default () => {
     </>
   )
 };
-
-// export default PieChart;
