@@ -2,33 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Row, Col, Container } from '@themesberg/react-bootstrap';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
+import moment from 'moment';
 
-const viewChart = (edition, data) => (
-  <Col>
-    <h3 className="text-center">{edition}</h3>
-    <ResponsiveContainer width={'100%'} height={400}>
-      <PieChart width={400} height={400}>
-        <Pie
-          dataKey="counts"
-          isAnimationActive={false}
-          data={data}
-          cx="50%"
-          cy="50%"
-          outerRadius={150}
-          fill="#8884d8"
-          label={renderLabel}
-          onClick={(e) => { console.log(e.value) }}
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        {/* <Legend verticalAlign="top" height={36} /> */}
-        <Tooltip />
-      </PieChart>
-    </ResponsiveContainer>
-  </Col>
-)
+const viewChart = (edition, data, history) => {
+  const navigateTo = (e) => history.push({
+    pathname: '../detail/custom-report',
+    state: {
+      fromDate: moment().startOf('month').format('YYYY-MM-DD'),
+      untilDate: moment().endOf('month').format('YYYY-MM-DD'),
+      edition: edition,
+      selected: e,
+      check: "device"
+    },
+  });
+
+  return (
+    <Col>
+      <h3 className="text-center">{edition}</h3>
+      <ResponsiveContainer width={'100%'} height={400}>
+        <PieChart width={400} height={400}>
+          <Pie
+            dataKey="counts"
+            isAnimationActive={false}
+            data={data}
+            cx="50%"
+            cy="50%"
+            outerRadius={150}
+            fill="#8884d8"
+            label={renderLabel}
+            onClick={(e) => { navigateTo(e) }}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          {/* <Legend verticalAlign="top" height={36} /> */}
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </Col>
+  )
+}
 
 const RADIAN = Math.PI / 180;
 let renderLabel = function (props) {
@@ -101,8 +116,9 @@ export default () => {
   const [june, setJune] = useState([]);
   const [july, setJuly] = useState([]);
   const [august, setAugust] = useState([]);
-  useEffect(() => {
+  const history = useHistory();
 
+  useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsdevices/july`)
       .then(function (res) {
         setMarch(getData(res, "march"));
@@ -121,16 +137,16 @@ export default () => {
 
       <Container>
         <Row>
-          {viewChart("August", august)}
-          {viewChart("July", july)}
+          {viewChart("August", august, history)}
+          {viewChart("July", july, history)}
         </Row>
         <Row>
-          {viewChart("June", june)}
-          {viewChart("May", may)}
+          {viewChart("June", june, history)}
+          {viewChart("May", may, history)}
         </Row>
         <Row>
-          {viewChart("April", april)}
-          {viewChart("March", march)}
+          {viewChart("April", april, history)}
+          {viewChart("March", march, history)}
         </Row>
       </Container>
     </>

@@ -23,18 +23,30 @@ export default () => {
   const [menu, setMenu] = useState([]);
   var columns;
   const location = useLocation();
-  // console.log("danang location", location.state || "")
 
   useEffect(() => {
     generateTable();
   }, []);
 
   const generateTable = () => {
+    var selected;
+    console.log(location.state);
+    if (location.state.check == "browser") {
+      selected = location.state.selected.browser
+    } else if (location.state.check == "device") {
+      selected = location.state.selected.devices
+    } else if (location.state.check == "pagename") {
+      selected = location.state.selected.page_name
+    } else if (location.state.check == "view") {
+      selected = location.state.selected.view
+    }
+
     axios.post(`${process.env.REACT_APP_BASE_URL}/customreport/`, {
       "edition": location.state.edition || "august",
       "startdate": location.state.fromDate || "2021-08-01",
       "enddate": location.state.endDate || "2021-08-31",
-      "check": location.state.check || "mobile"
+      "select": selected || "mobile",
+      "check": location.state.check,
     })
       .then(function (res) {
         setData(res.data);

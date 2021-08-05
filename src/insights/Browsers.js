@@ -15,7 +15,8 @@ const viewChart = (edition, data, history) => {
       fromDate: moment().startOf('month').format('YYYY-MM-DD'),
       untilDate: moment().endOf('month').format('YYYY-MM-DD'),
       edition: edition,
-      check: "mobile"
+      selected: e,
+      check: "browser"
     },
   });
   return (
