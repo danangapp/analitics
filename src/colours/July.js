@@ -4,9 +4,70 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
 import axios from 'axios';
-
+import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { CounterWidget, CircleChartWidget, SalesValueWidgetJuly } from "../components/Widgets";
 import { PageVisitsTable } from "../components/Tables";
+
+
+const gradientOffset = (data) => {
+  if (data) {
+    const dataMax = Math.max(...data.map((i) => i.views));
+    const dataMin = Math.min(...data.map((i) => i.views));
+
+    if (dataMax <= 0) {
+      return 0;
+    }
+    if (dataMin >= 0) {
+      return 1;
+    }
+
+    return dataMax / (dataMax - dataMin);
+  }
+};
+
+const CustomizedAxisTick = (props) => {
+  const { x, y, stroke, payload } = props;
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
+        {payload.value}
+      </text>
+    </g>
+  );
+}
+
+const viewChart = (edition, data) => (
+  <Col>
+    <h3 className="text-center">{edition}</h3>
+    <ResponsiveContainer width={'100%'} height={400}>
+      <AreaChart
+        width={500}
+        height={400}
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="dates" tick={<CustomizedAxisTick />} height={80} />
+        <YAxis />
+        <Tooltip />
+        <defs>
+          <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset={gradientOffset(data)} stopColor="green" stopOpacity={1} />
+            <stop offset={gradientOffset(data)} stopColor="red" stopOpacity={1} />
+          </linearGradient>
+        </defs>
+        <Area type="monotone" dataKey="views" stroke="#000" fill="url(#splitColor)" />
+      </AreaChart>
+    </ResponsiveContainer>
+  </Col>
+)
+
 
 const valueConversion = (value) => {
   var suffixes = ["", "k", "m", "b", "t"];
@@ -72,17 +133,14 @@ export default () => {
         var arr1 = [], arr2 = [], arr3 = [];
         const resData = res.data || [];
         for (const a in resData) {
-          if (resData[a].edition === "july") {
-            arr1.push(resData[a].dates || []);
-            arr2.push(resData[a].views || []);
+          if (resData[a].edition === "august") {
+            arr1.push(resData[a]);
           }
         }
-        arr3.push(arr2);
-        data.labels = arr1;
-        data.series = arr3;
+
         const strings = "data";
         setData(current => {
-          return ({ ...current, [strings]: data })
+          return ({ ...current, [strings]: arr1 })
         })
       });
   }, []);
@@ -114,12 +172,7 @@ export default () => {
 
       <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
-          <SalesValueWidgetJuly
-            title="Users"
-            value={data.views}
-            percentage={10.57}
-            data={data.data}
-          />
+          {viewChart("July", data.data)}
         </Col>
 
         <Col xs={12} sm={6} xl={6} className="mb-4">
