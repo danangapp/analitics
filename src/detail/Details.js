@@ -50,7 +50,7 @@ export default () => {
   var columns;
 
   const startApps = () => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/detail/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/detail/colours/${menu}/july/${moment(startDate).format('YYYY-MM-DD')}/${moment(endDate).format('YYYY-MM-DD')}`)
       .then(function (res) {
         setData(res.data);
       });
@@ -60,7 +60,7 @@ export default () => {
     const FileDownload = require('js-file-download');
 
     axios({
-      url: `${process.env.REACT_APP_BASE_URL}/report/colours/${menu}/july/${moment(startDate).format('yyyy-MM-D')}/${moment(endDate).format('yyyy-MM-D')}`,
+      url: `${process.env.REACT_APP_BASE_URL}/report/colours/${menu}/july/${moment(startDate).format('YYYY-MM-DD')}/${moment(endDate).format('YYYY-MM-DD')}`,
       method: 'GET',
       responseType: 'blob', // Important
     }).then((response) => {
