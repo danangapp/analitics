@@ -64,7 +64,7 @@ const viewChart = (edition, data) => (
             <stop offset={gradientOffset(data)} stopColor="red" stopOpacity={1} />
           </linearGradient>
         </defs>
-        <Area type="monotone" dataKey="views" stroke="#000" fill="url(#splitColor)" />
+        <Area type="monotone" dataKey="views" stroke="#000" fill="url(#splitColor)" label={{ position: 'top' }} />
       </AreaChart>
     </ResponsiveContainer>
   </Col>
