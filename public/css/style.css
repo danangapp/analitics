@@ -1,0 +1,44 @@
+.pagination li {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+}
+
+.pagination li.active {
+  background-color: #262B40;
+  color: white;
+}
+
+.pagination li.active a span {
+  color: white;
+}
+
+.container .row .col-xs-4 div {
+	margin-bottom: 10px;
+} 
+
+.container .row .col-xs-4 div label {
+	width: 100px;
+} 
+
+.container .row .col-xs-4 div input, .container .row .col-xs-4 div select{
+	border: 0.1px solid darkgrey;
+    border-radius: 5px;
+    padding: 5px;
+} 
+.react-datepicker__input-container input {
+	border: 0.1px solid darkgrey;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+	margin-top:10px;
+	margin-right:5px;
+	margin-bottom:50px;
+}

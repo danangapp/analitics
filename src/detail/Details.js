@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from '@themesberg/react-bootstrap';
+import { Form, Button, Container } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -99,27 +99,31 @@ export default () => {
     <>
       <div className='header'>
         <h1 className='title'>Browser Detail</h1>
-        <Form.Select aria-label="Default select example" onChange={(event) => onMenu(event)}>
-          <option>Menu</option>
-          <option value="viewsbrowsersdetail">Browser</option>
-          <option value="viewscountrysdetail">Country</option>
-          <option value="viewsdevicesdetail">Device</option>
-          <option value="viewsdurationsdetail">Duration</option>
-          <option value="viewspagesdetail">Pages</option>
-          <option value="viewspagenamesdetail">Page Name</option>
-          <option value="viewssizesdetail">Size</option>
-          <option value="viewsdetail">Detail</option>
-        </Form.Select>
-        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-        <Button variant="primary" onClick={() => handleClick("submit")}>Submit</Button>
-        <Button variant="primary" onClick={() => handleClick("export")}>Export</Button>
+        <Container>
+          <Form.Select aria-label="Default select example" onChange={(event) => onMenu(event)}>
+            <option>Menu</option>
+            <option value="viewsbrowsersdetail">Browser</option>
+            <option value="viewscountrysdetail">Country</option>
+            <option value="viewsdevicesdetail">Device</option>
+            <option value="viewsdurationsdetail">Duration</option>
+            <option value="viewspagesdetail">Pages</option>
+            <option value="viewspagenamesdetail">Page Name</option>
+            <option value="viewssizesdetail">Size</option>
+            <option value="viewsdetail">Detail</option>
+          </Form.Select>
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+          < br />
+          <Button variant="primary" onClick={() => handleClick("submit")}>Submit</Button>
+          <Button variant="primary" onClick={() => handleClick("export")}>Export</Button>
+        </Container>
         <DataTable
           keys="no"
           columns={columns || []}
           initialData={data}
           initialPageLength={5}
           initialSortBy={{ order: 'descending' }}
+          showPages={10}
         />
       </div>
 

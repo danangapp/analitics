@@ -133,7 +133,7 @@ export default () => {
         var arr1 = [], arr2 = [], arr3 = [];
         const resData = res.data || [];
         for (const a in resData) {
-          if (resData[a].edition === "august") {
+          if (resData[a].edition === "july") {
             arr1.push(resData[a]);
           }
         }
