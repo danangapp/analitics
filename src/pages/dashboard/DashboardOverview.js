@@ -40,7 +40,7 @@ const viewChart = (edition, data) => {
 
   return (
     <Col>
-      <h3 className="text-center">{edition}</h3>
+      <h3 className="text-center">All Edition In This Month</h3>
       <ResponsiveContainer width={'100%'} height={400}>
         <AreaChart
           width={500}
