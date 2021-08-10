@@ -7,7 +7,23 @@ import axios from 'axios';
 import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { CounterWidget, CircleChartWidget, SalesValueWidgetJuly } from "../components/Widgets";
 import { PageVisitsTable } from "../components/Tables";
+import moment from 'moment';
 
+const exportToExcel = (e) => {
+  if (e && e.activeLabel) {
+    const dates = moment().format('YYYY-MM-') + e.activeLabel;
+    const FileDownload = require('js-file-download');
+
+    axios({
+      url: `${process.env.REACT_APP_BASE_URL}/detailedition/${moment(dates).format('YYYY-MM-DD')}/july`,
+      method: 'GET',
+      responseType: 'blob',
+    }).then((response) => {
+      FileDownload(response.data, 'report.xlsx');
+    });
+
+  }
+}
 
 const gradientOffset = (data) => {
   if (data) {
@@ -51,6 +67,7 @@ const viewChart = (edition, data) => (
           left: 0,
           bottom: 0,
         }}
+        onClick={(e) => { exportToExcel(e) }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="dates" tick={<CustomizedAxisTick />} height={80} />

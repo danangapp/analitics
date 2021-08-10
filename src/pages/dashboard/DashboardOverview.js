@@ -3,7 +3,23 @@ import React, { useState, useEffect } from "react";
 import { Col, Row, Card } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
+import moment from 'moment';
 
+const exportToExcel = (e) => {
+  if (e && e.activeLabel) {
+    const dates = moment().format('YYYY-MM-') + e.activeLabel;
+    const FileDownload = require('js-file-download');
+
+    axios({
+      url: `${process.env.REACT_APP_BASE_URL}/reportdetail/${moment(dates).format('YYYY-MM-DD')}`,
+      method: 'GET',
+      responseType: 'blob',
+    }).then((response) => {
+      FileDownload(response.data, 'report.xlsx');
+    });
+
+  }
+}
 
 const gradientOffset = (data) => {
   if (data) {
@@ -52,7 +68,7 @@ const viewChart = (edition, data) => {
             left: 0,
             bottom: 0,
           }}
-          onClick={(e) => { navigateTo(e) }}
+          onClick={(e) => { exportToExcel(e) }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="dates" tick={<CustomizedAxisTick />} height={80} />

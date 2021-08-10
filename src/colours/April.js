@@ -9,7 +9,23 @@ import { CounterWidget, CircleChartWidget, BarChartWidget, TeamMembersWidget, Pr
 import { PageVisitsTable } from "../components/Tables";
 import { trafficShares, totalOrders } from "../data/charts";
 import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
+import moment from 'moment';
 
+const exportToExcel = (e) => {
+  if (e && e.activeLabel) {
+    const dates = moment().format('YYYY-MM-') + e.activeLabel;
+    const FileDownload = require('js-file-download');
+
+    axios({
+      url: `${process.env.REACT_APP_BASE_URL}/detailedition/${moment(dates).format('YYYY-MM-DD')}/april`,
+      method: 'GET',
+      responseType: 'blob',
+    }).then((response) => {
+      FileDownload(response.data, 'report.xlsx');
+    });
+
+  }
+}
 
 const gradientOffset = (data) => {
   if (data) {
@@ -53,6 +69,7 @@ const viewChart = (edition, data) => (
           left: 0,
           bottom: 0,
         }}
+        onClick={(e) => { exportToExcel(e) }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="dates" tick={<CustomizedAxisTick />} height={80} />
