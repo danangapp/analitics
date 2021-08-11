@@ -1,48 +1,43 @@
 
 import React, { useState, useEffect } from "react";
-import { Col, Row, Card, Form } from '@themesberg/react-bootstrap';
+import { Col, Row, Card, Form, Button } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
 import moment from 'moment';
 
-const onMenu = (e, setData) => {
-  // setData(current => {
-  //   return ({ ...current, ["data"]: res.data })
-  // })
-  setData(current => {
-    return ({ ...current, ["dates1"]: e.target.value })
-  })
-
-  // const selectMonth = moment(e.target.value).format('MMMM');
-  // const thisMonth = moment().format('MMMM');
-  // if (selectMonth) {
-  //   setData(current => {
-  //     const month1 = thisMonth == selectMonth ? "this month" : thisMonth;
-  //     return ({ ...current, ["month1"]: month1 })
-  //   })
-  // }
-
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views2/${e.target.value}`)
-    .then(function (res) {
-      console.log("kesini 2", res.data);
-      const strings = "data";
-
-      setData(current => {
-        return ({ ...current, [strings]: res.data })
-      })
-
-    });
-  // console.log(e.target.value);
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const exportToExcel = (e, dates1) => {
-  if (e && e.activeLabel) {
-    console.log("renny", dates1);
-    const dates = moment(dates1).format('YYYY-MM-') + e.activeLabel;
+const ambilData = (value, setData, data, options) => {
+  var edition, months;
+  if (options == "edition") {
+    edition = value;
+    months = data.months;
+  } else {
+    edition = data.edition;
+    months = value;
+  }
+  axios.get(`${process.env.REACT_APP_BASE_URL}/chart2/views2/${months}/${edition}`)
+    .then(function (res) {
+      setData(current => {
+        if (options == "edition") {
+          return ({ ...current, ["data"]: res.data, ["edition"]: value });
+        } else {
+          return ({ ...current, ["data"]: res.data, ["months"]: value });
+        }
+      })
+    });
+}
+
+
+const exportToExcel = (activeLabel, data) => {
+  if (activeLabel) {
+    const dates = moment(data.months).format('YYYY-MM-') + activeLabel;
     const FileDownload = require('js-file-download');
 
     axios({
-      url: `${process.env.REACT_APP_BASE_URL}/reportdetail/${moment(dates).format('YYYY-MM-DD')}`,
+      url: `${process.env.REACT_APP_BASE_URL}/reportdetail/${moment(dates).format('YYYY-MM-DD')}/${data.edition || "all"}`,
       method: 'GET',
       responseType: 'blob',
     }).then((response) => {
@@ -80,35 +75,45 @@ const CustomizedAxisTick = (props) => {
   );
 }
 
-const viewChart = (edition, data, setData, dates1) => {
-  const navigateTo = (e) => {
-    console.log(e)
-  }
+const viewChart = (edition, result, setData) => {
+  const handleClick = () => {
 
-  // const selectMonth = moment(dates1).format('MMMM');
-  // const thisMonth = moment().format('MMMM');
-  // const month1 = thisMonth == selectMonth ? "This Month" : thisMonth;
+  };
 
   return (
     <Col>
-      <h3 className="text-center">All Edition In This Month</h3>
-      <Form.Select aria-label="Default select example" onChange={(event) => onMenu(event, setData)} style={{ width: 200 }}>
-        <option value="2021-08-01">August</option>
-        <option value="2021-07-01">July</option>
-        <option value="2021-06-01">June</option>
-      </Form.Select>
+      <h3 className="text-center">{edition && capitalizeFirstLetter(edition)} Edition In {moment(result.months).format('MMMM')}</h3>
+      <Form.Group>
+        <Form.Label>Edition</Form.Label>
+        <Form.Select aria-label="Default select example" onChange={(e) => ambilData(e.target.value, setData, result, "edition")} style={{ width: 200 }}>
+          <option value="all">All Edition</option>
+          <option value="august">August</option>
+          <option value="july">July</option>
+          <option value="june">June</option>
+          <option value="may">May</option>
+          <option value="april">April</option>
+          <option value="march">March</option>
+        </Form.Select>
+        <Form.Label>Month</Form.Label>
+        <Form.Select aria-label="Default select example" onChange={(e) => ambilData(e.target.value, setData, result, "months")} style={{ width: 200 }}>
+          <option value="2021-08-01">August</option>
+          <option value="2021-07-01">July</option>
+          <option value="2021-06-01">June</option>
+        </Form.Select>
+        <Button variant="primary" onClick={handleClick()}>Export All</Button>
+      </Form.Group>
       <ResponsiveContainer width={'100%'} height={400}>
         <AreaChart
           width={500}
           height={400}
-          data={data}
+          data={result.data}
           margin={{
             top: 10,
             right: 30,
             left: 0,
             bottom: 0,
           }}
-          onClick={(e) => { exportToExcel(e, dates1) }}
+          onClick={(e) => { exportToExcel(e.activeLabel, result) }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="dates" tick={<CustomizedAxisTick />} height={80} />
@@ -116,8 +121,8 @@ const viewChart = (edition, data, setData, dates1) => {
           <Tooltip />
           <defs>
             <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-              <stop offset={gradientOffset(data)} stopColor="green" stopOpacity={1} />
-              <stop offset={gradientOffset(data)} stopColor="red" stopOpacity={1} />
+              <stop offset={gradientOffset(result.data)} stopColor="green" stopOpacity={1} />
+              <stop offset={gradientOffset(result.data)} stopColor="red" stopOpacity={1} />
             </linearGradient>
           </defs>
           <Area type="monotone" dataKey="views" stroke="#000" fill="url(#splitColor)" label={{ position: 'top' }} />
@@ -142,7 +147,6 @@ export default () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthismonth/june`)
       .then(function (res) {
         const strings = "ViewThismonth";
@@ -191,8 +195,13 @@ export default () => {
         })
       });
 
+    const months = "2021-08-01";
+    const edition = "all";
+    setData(current => {
+      return ({ ...current, ["months"]: months, ["edition"]: edition })
+    })
 
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/views2/2021-08-01`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/chart2/views2/${months}/${edition}`)
       .then(function (res) {
         const strings = "data";
 
@@ -201,6 +210,8 @@ export default () => {
         })
       });
 
+
+
   }, []);
 
 
@@ -208,7 +219,7 @@ export default () => {
     <>
       <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
-          {viewChart("August", data.data, setData, data.dates1)}
+          {viewChart(data.edition, data, setData)}
         </Col>
 
         <Col xs={12} sm={6} xl={4} className="mb-3">
