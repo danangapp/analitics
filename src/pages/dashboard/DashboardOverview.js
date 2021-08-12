@@ -9,6 +9,30 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const axiosData = (months, edition, setData, options = "", value = "") => {
+  axios.request({
+    method: 'post',
+    url: `${process.env.REACT_APP_BASE_URL}/chart2/views2`,
+    data: {
+      months,
+      edition,
+      action: "views2",
+    }
+  }).then(function (res) {
+    setData(current => {
+      if (options == "") {
+        return ({ ...current, ["data"]: res.data })
+      } else {
+        if (options == "edition") {
+          return ({ ...current, ["data"]: res.data, ["edition"]: value });
+        } else {
+          return ({ ...current, ["data"]: res.data, ["months"]: value });
+        }
+      }
+    })
+  });
+}
+
 const ambilData = (value, setData, data, options) => {
   var edition, months;
   if (options == "edition") {
@@ -18,16 +42,8 @@ const ambilData = (value, setData, data, options) => {
     edition = data.edition;
     months = value;
   }
-  axios.get(`${process.env.REACT_APP_BASE_URL}/chart2/views2/${months}/${edition}`)
-    .then(function (res) {
-      setData(current => {
-        if (options == "edition") {
-          return ({ ...current, ["data"]: res.data, ["edition"]: value });
-        } else {
-          return ({ ...current, ["data"]: res.data, ["months"]: value });
-        }
-      })
-    });
+
+  axiosData(months, edition, setData, options, value);
 }
 
 
@@ -37,9 +53,14 @@ const exportToExcel = (activeLabel, data) => {
     const FileDownload = require('js-file-download');
 
     axios({
-      url: `${process.env.REACT_APP_BASE_URL}/reportdetail/${moment(dates).format('YYYY-MM-DD')}/${data.edition || "all"}`,
-      method: 'GET',
+      url: `${process.env.REACT_APP_BASE_URL}/reportdetail`,
+      method: 'POST',
       responseType: 'blob',
+      data: {
+        dates: moment(dates).format('YYYY-MM-DD'),
+        edition: data.edition || "all",
+        globals: activeLabel,
+      }
     }).then((response) => {
       FileDownload(response.data, 'report.xlsx');
     });
@@ -77,7 +98,7 @@ const CustomizedAxisTick = (props) => {
 
 const viewChart = (edition, result, setData) => {
   const handleClick = () => {
-
+    exportToExcel("-", result);
   };
 
   return (
@@ -100,7 +121,7 @@ const viewChart = (edition, result, setData) => {
           <option value="2021-07-01">July</option>
           <option value="2021-06-01">June</option>
         </Form.Select>
-        <Button variant="primary" onClick={handleClick()}>Export All</Button>
+        <Button variant="primary" onClick={() => handleClick()}>Export All</Button>
       </Form.Group>
       <ResponsiveContainer width={'100%'} height={400}>
         <AreaChart
@@ -200,17 +221,7 @@ export default () => {
     setData(current => {
       return ({ ...current, ["months"]: months, ["edition"]: edition })
     })
-
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart2/views2/${months}/${edition}`)
-      .then(function (res) {
-        const strings = "data";
-
-        setData(current => {
-          return ({ ...current, [strings]: res.data })
-        })
-      });
-
-
+    axiosData(months, edition, setData);
 
   }, []);
 
