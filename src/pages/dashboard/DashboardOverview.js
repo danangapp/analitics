@@ -49,6 +49,7 @@ const ambilData = (value, setData, data, options) => {
 
 const exportToExcel = (activeLabel, data, globals = "") => {
   if (activeLabel) {
+    console.log("globals", data.months);
     const dates = moment(data.months).format('YYYY-MM-') + activeLabel;
     const FileDownload = require('js-file-download');
 
@@ -57,7 +58,7 @@ const exportToExcel = (activeLabel, data, globals = "") => {
       method: 'POST',
       responseType: 'blob',
       data: {
-        dates: moment(dates).format('YYYY-MM-DD'),
+        dates: globals == "" ? moment(dates).format('YYYY-MM-DD') : data.months,
         edition: data.edition || "all",
         globals,
       }
@@ -104,7 +105,7 @@ const onDateChanges = (activeLabel, data, setData) => {
 }
 
 const viewChart = (edition, result, setData) => {
-  const handleClick = () => {
+  const exportAll = () => {
     exportToExcel(result.dates2, result, "-");
   };
 
@@ -128,7 +129,7 @@ const viewChart = (edition, result, setData) => {
           <option value="2021-07-01">July</option>
           <option value="2021-06-01">June</option>
         </Form.Select>
-        <Button variant="primary" onClick={() => handleClick()}>Export All</Button>
+        <Button variant="primary" onClick={() => exportAll()}>Export All</Button>
       </Form.Group>
       <ResponsiveContainer width={'100%'} height={400}>
         <AreaChart
