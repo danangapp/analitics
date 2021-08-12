@@ -47,7 +47,7 @@ const ambilData = (value, setData, data, options) => {
 }
 
 
-const exportToExcel = (activeLabel, data) => {
+const exportToExcel = (activeLabel, data, globals = "") => {
   if (activeLabel) {
     const dates = moment(data.months).format('YYYY-MM-') + activeLabel;
     const FileDownload = require('js-file-download');
@@ -59,7 +59,7 @@ const exportToExcel = (activeLabel, data) => {
       data: {
         dates: moment(dates).format('YYYY-MM-DD'),
         edition: data.edition || "all",
-        globals: activeLabel,
+        globals,
       }
     }).then((response) => {
       FileDownload(response.data, 'report.xlsx');
@@ -96,9 +96,16 @@ const CustomizedAxisTick = (props) => {
   );
 }
 
+const onDateChanges = (activeLabel, data, setData) => {
+  setData(current => {
+    return ({ ...current, ["dates2"]: activeLabel })
+  })
+  exportToExcel(activeLabel, data)
+}
+
 const viewChart = (edition, result, setData) => {
   const handleClick = () => {
-    exportToExcel("-", result);
+    exportToExcel(result.dates2, result, "-");
   };
 
   return (
@@ -134,7 +141,7 @@ const viewChart = (edition, result, setData) => {
             left: 0,
             bottom: 0,
           }}
-          onClick={(e) => { exportToExcel(e.activeLabel, result) }}
+          onClick={(e) => { onDateChanges(e.activeLabel, result, setData) }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="dates" tick={<CustomizedAxisTick />} height={80} />
@@ -219,7 +226,7 @@ export default () => {
     const months = "2021-08-01";
     const edition = "all";
     setData(current => {
-      return ({ ...current, ["months"]: months, ["edition"]: edition })
+      return ({ ...current, ["months"]: months, ["edition"]: edition, ["dates2"]: months })
     })
     axiosData(months, edition, setData);
 
