@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Row, Col, Container } from '@themesberg/react-bootstrap';
+import { Row, Col, Container, Form, Button } from '@themesberg/react-bootstrap';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import moment from 'moment';
 
+const exportToExcel = (type, activeLabel, edition, data, globals = "") => {
+  console.log("edition", edition);
+  if (activeLabel) {
+    const FileDownload = require('js-file-download');
 
+    axios({
+      url: `${process.env.REACT_APP_BASE_URL}/chartdetail`,
+      method: 'POST',
+      responseType: 'blob',
+      data: {
+        type,
+        activeLabel,
+        edition,
+        dates: "2021-08-01",
+        globals,
+      }
+    }).then((response) => {
+      FileDownload(response.data, 'report.xlsx');
+    });
+
+  }
+}
 
 const viewChart = (edition, data, history) => {
-  // console.log("ini ya", e);
-  const navigateTo = (e) => history.push({
-    pathname: '../detail/custom-report',
-    state: {
-      fromDate: moment().startOf('month').format('YYYY-MM-DD'),
-      untilDate: moment().endOf('month').format('YYYY-MM-DD'),
-      edition: edition,
-      selected: e,
-      check: "browser"
-    },
-  });
   return (
-    <Col>
+    <Col key={edition}>
       <h3 className="text-center">{edition}</h3>
       <ResponsiveContainer width={'100%'} height={400}>
         <PieChart width={400} height={400}>
@@ -33,7 +43,7 @@ const viewChart = (edition, data, history) => {
             outerRadius={150}
             fill="#8884d8"
             label={renderLabel}
-            onClick={(e) => { navigateTo(e) }}
+            onClick={(e) => { exportToExcel("browser", e.browser, e.edition, data) }}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -110,27 +120,48 @@ const getData = (res, edition) => {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#fe0088', '#00fef5'];
 
+const axiosData = (months, setData) => {
+  axios.post(`${process.env.REACT_APP_BASE_URL}/chart3`, {
+    app: "colours",
+    action: "viewsbrowsers",
+    months: months
+  })
+    .then(function (res) {
+      setData(current => {
+        return ({
+          ...current,
+          ["march"]: getData(res, "march"),
+          ["april"]: getData(res, "april"),
+          ["may"]: getData(res, "may"),
+          ["june"]: getData(res, "june"),
+          ["july"]: getData(res, "july"),
+          ["august"]: getData(res, "august"),
+          ["months"]: months,
+        })
+      });
+    });
+}
+
 export default () => {
-  const [march, setMarch] = useState([]);
-  const [april, setApril] = useState([]);
-  const [may, setMay] = useState([]);
-  const [june, setJune] = useState([]);
-  const [july, setJuly] = useState([]);
-  const [august, setAugust] = useState([]);
+  const [data, setData] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
-
-    axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsbrowsers/july`)
-      .then(function (res) {
-        setMarch(getData(res, "march"));
-        setApril(getData(res, "april"));
-        setMay(getData(res, "may"));
-        setJune(getData(res, "june"));
-        setJuly(getData(res, "july"));
-        setAugust(getData(res, "august"));
-      });
+    axiosData("2021-08-01", setData)
   }, []);
+
+  var editionName = ['August', 'July', 'June', 'May', 'April', 'March'];
+  var editionData = [data.august || [], data.july || [], data.june || [], data.may || [], data.april || [], data.march || []];
+  if (data.months == "2021-07-01") {
+    editionName.shift();
+    editionData.shift();
+  }
+  if (data.months == "2021-06-01") {
+    editionName.shift();
+    editionData.shift();
+    editionName.shift();
+    editionData.shift();
+  }
 
   return (
     <>
@@ -138,20 +169,24 @@ export default () => {
         <h1 className='title'>Browser</h1>
       </div>
 
+      <Form.Group>
+        <Form.Label>Month</Form.Label>
+        <Form.Select aria-label="Default select example" onChange={(e) => axiosData(e.target.value, setData)} style={{ width: 200 }}>
+          <option value="2021-08-01">August</option>
+          <option value="2021-07-01">July</option>
+          <option value="2021-06-01">June</option>
+        </Form.Select>
+        <Button variant="primary" onClick={() => console.log("e")}>Export All</Button>
+      </Form.Group>
       <Container>
-        <Row>
-          {viewChart("August", august, history)}
-          {viewChart("July", july, history)}
-        </Row>
-        <Row>
-          {viewChart("June", june, history)}
-          {viewChart("May", may, history)}
-        </Row>
-        <Row>
-          {viewChart("April", april, history)}
-          {viewChart("March", march, history)}
-        </Row>
-      </Container>
+        {
+          editionData ?
+            editionName.map((a, b) =>
+              viewChart(a, editionData[b], history)
+            )
+            : null
+        }
+      </Container >
     </>
   )
 };
