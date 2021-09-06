@@ -110,23 +110,23 @@ const getData = (res, edition) => {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#fe0088', '#00fef5'];
 
 export default () => {
-  const [march, setMarch] = useState([]);
-  const [april, setApril] = useState([]);
-  const [may, setMay] = useState([]);
-  const [june, setJune] = useState([]);
-  const [july, setJuly] = useState([]);
-  const [august, setAugust] = useState([]);
+  const [data, setData] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsdevices/july`)
       .then(function (res) {
-        setMarch(getData(res, "march"));
-        setApril(getData(res, "april"));
-        setMay(getData(res, "may"));
-        setJune(getData(res, "june"));
-        setJuly(getData(res, "july"));
-        setAugust(getData(res, "august"));
+        const arr = [];
+        for (let i = moment().startOf('month').format('M'); i > 2; i--) {
+          const monthName = moment(`2021-${i}-1`).startOf('month').format('MMMM');
+          arr.push(
+            { month: monthName, data: getData(res, monthName.toLowerCase()) }
+          );
+        }
+
+        setData(current => {
+          return ({ ...current, ["dataPerMonth"]: arr })
+        })
       });
   }, []);
   return (
@@ -136,18 +136,7 @@ export default () => {
       </div>
 
       <Container>
-        <Row>
-          {viewChart("August", august, history)}
-          {viewChart("July", july, history)}
-        </Row>
-        <Row>
-          {viewChart("June", june, history)}
-          {viewChart("May", may, history)}
-        </Row>
-        <Row>
-          {viewChart("April", april, history)}
-          {viewChart("March", march, history)}
-        </Row>
+        {data.dataPerMonth && data.dataPerMonth.map((a, b) => viewChart(a.month, a.data))}
       </Container>
     </>
   )

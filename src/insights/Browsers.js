@@ -182,9 +182,8 @@ export default () => {
       <Container>
         {
           data.dataPerMonth && data.dataPerMonth.map((a, b) =>
-          (
             viewChart(a.month, a.data, history)
-          ))
+          )
         }
       </Container >
     </>

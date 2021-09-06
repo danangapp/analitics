@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AreaChart, Area, Tooltip, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { Row, Col, Container } from '@themesberg/react-bootstrap';
 import axios from 'axios';
+import moment from 'moment';
 
 
 const gradientOffset = (data) => {
@@ -77,25 +78,24 @@ const getData = (res, edition) => {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default () => {
-  const [march, setMarch] = useState([]);
-  const [april, setApril] = useState([]);
-  const [may, setMay] = useState([]);
-  const [june, setJune] = useState([]);
-  const [july, setJuly] = useState([]);
-  const [august, setAugust] = useState([]);
+  const [data, setData] = useState([]);
   useEffect(() => {
 
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewsizes/july`)
       .then(function (res) {
-        setMarch(getData(res, "march"));
-        setApril(getData(res, "april"));
-        setMay(getData(res, "may"));
-        setJune(getData(res, "june"));
-        setJuly(getData(res, "july"));
-        setAugust(getData(res, "august"));
+        const arr = [];
+        for (let i = moment().startOf('month').format('M'); i > 2; i--) {
+          const monthName = moment(`2021-${i}-1`).startOf('month').format('MMMM');
+          arr.push(
+            { month: monthName, data: getData(res, monthName.toLowerCase()) }
+          );
+        }
+
+        setData(current => {
+          return ({ ...current, ["dataPerMonth"]: arr })
+        })
       });
   }, []);
-  console.log(august);
   return (
     <>
       <div className='header'>
@@ -103,12 +103,7 @@ export default () => {
       </div>
 
       <Container>
-        {viewChart("August", august)}
-        {viewChart("July", july)}
-        {viewChart("June", june)}
-        {viewChart("May", may)}
-        {viewChart("April", april)}
-        {viewChart("March", march)}
+        {data.dataPerMonth && data.dataPerMonth.map((a, b) => viewChart(a.month, a.data))}
       </Container>
     </>
   )
