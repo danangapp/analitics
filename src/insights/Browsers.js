@@ -6,7 +6,6 @@ import axios from 'axios';
 import moment from 'moment';
 
 const exportToExcel = (type, activeLabel, edition, data, globals = "") => {
-  console.log("edition", edition);
   if (activeLabel) {
     const FileDownload = require('js-file-download');
 
@@ -18,7 +17,7 @@ const exportToExcel = (type, activeLabel, edition, data, globals = "") => {
         type,
         activeLabel,
         edition,
-        dates: "2021-08-01",
+        dates: moment().startOf('month').format('YYYY-MM-DD'),
         globals,
       }
     }).then((response) => {
@@ -120,22 +119,26 @@ const getData = (res, edition) => {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#fe0088', '#00fef5'];
 
-const axiosData = (months, setData) => {
+const axiosData = (months, setData, data) => {
   axios.post(`${process.env.REACT_APP_BASE_URL}/chart3`, {
     app: "colours",
     action: "viewsbrowsers",
     months: months
   })
     .then(function (res) {
+      const arr = [];
+      for (let i = moment().startOf('month').format('M'); i > 2; i--) {
+        const monthName = moment(`2021-${i}-1`).startOf('month').format('MMMM');
+        arr.push(
+          { month: monthName, data: getData(res, monthName.toLowerCase()) }
+        );
+      }
+      // console.log(arr);
+
       setData(current => {
         return ({
           ...current,
-          ["march"]: getData(res, "march"),
-          ["april"]: getData(res, "april"),
-          ["may"]: getData(res, "may"),
-          ["june"]: getData(res, "june"),
-          ["july"]: getData(res, "july"),
-          ["august"]: getData(res, "august"),
+          ["dataPerMonth"]: arr,
           ["months"]: months,
         })
       });
@@ -145,23 +148,21 @@ const axiosData = (months, setData) => {
 export default () => {
   const [data, setData] = useState([]);
   const history = useHistory();
+  console.log(data);
 
   useEffect(() => {
-    axiosData("2021-08-01", setData)
-  }, []);
+    var monthArray = []
+    for (let i = moment().startOf('month').format('M'); i > 5; i--) {
+      const m = i < 10 ? `0${i}` : i
+      monthArray.push({ firstMonth: `2021-${m}-01`, month: moment(`2021-${i}-1`).startOf('month').format('MMMM') });
+    }
 
-  var editionName = ['August', 'July', 'June', 'May', 'April', 'March'];
-  var editionData = [data.august || [], data.july || [], data.june || [], data.may || [], data.april || [], data.march || []];
-  if (data.months == "2021-07-01") {
-    editionName.shift();
-    editionData.shift();
-  }
-  if (data.months == "2021-06-01") {
-    editionName.shift();
-    editionData.shift();
-    editionName.shift();
-    editionData.shift();
-  }
+    setData(current => {
+      return ({ ...current, ["monthArray"]: monthArray })
+    })
+
+    axiosData(moment().startOf('month').format('YYYY-MM-DD'), setData)
+  }, []);
 
   return (
     <>
@@ -172,19 +173,18 @@ export default () => {
       <Form.Group>
         <Form.Label>Month</Form.Label>
         <Form.Select aria-label="Default select example" onChange={(e) => axiosData(e.target.value, setData)} style={{ width: 200 }}>
-          <option value="2021-08-01">August</option>
-          <option value="2021-07-01">July</option>
-          <option value="2021-06-01">June</option>
+          {
+            data.monthArray && data.monthArray.map((a) => <option value={a.firstMonth}>{a.month}</option>)
+          }
         </Form.Select>
         <Button variant="primary" onClick={() => console.log("e")}>Export All</Button>
       </Form.Group>
       <Container>
         {
-          editionData ?
-            editionName.map((a, b) =>
-              viewChart(a, editionData[b], history)
-            )
-            : null
+          data.dataPerMonth && data.dataPerMonth.map((a, b) =>
+          (
+            viewChart(a.month, a.data, history)
+          ))
         }
       </Container >
     </>

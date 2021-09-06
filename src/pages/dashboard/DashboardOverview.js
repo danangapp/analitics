@@ -116,18 +116,15 @@ const viewChart = (edition, result, setData) => {
         <Form.Label>Edition</Form.Label>
         <Form.Select aria-label="Default select example" onChange={(e) => ambilData(e.target.value, setData, result, "edition")} style={{ width: 200 }}>
           <option value="all">All Edition</option>
-          <option value="august">August</option>
-          <option value="july">July</option>
-          <option value="june">June</option>
-          <option value="may">May</option>
-          <option value="april">April</option>
-          <option value="march">March</option>
+          {
+            result.editionList && result.editionList.map((i) => <option value={i.toLowerCase()}>{i}</option>)
+          }
         </Form.Select>
         <Form.Label>Month</Form.Label>
         <Form.Select aria-label="Default select example" onChange={(e) => ambilData(e.target.value, setData, result, "months")} style={{ width: 200 }}>
-          <option value="2021-08-01">August</option>
-          <option value="2021-07-01">July</option>
-          <option value="2021-06-01">June</option>
+          {
+            result.monthList && result.monthList.map((i) => <option value={i.toLowerCase()}>{i}</option>)
+          }
         </Form.Select>
         <Button variant="primary" onClick={() => exportAll()}>Export All</Button>
       </Form.Group>
@@ -174,8 +171,21 @@ const valueConversion = (value) => {
 
 export default () => {
   const [data, setData] = useState([]);
-
+  console.log(data);
   useEffect(() => {
+    var arr = [], array = []
+    for (let i = moment().startOf('month').format('M'); i > 2; i--) {
+      arr.push(moment(`2021-${i}-1`).startOf('month').format('MMMM'));
+    }
+
+    for (let i = moment().startOf('month').format('M'); i > 5; i--) {
+      array.push(moment(`2021-${i}-1`).startOf('month').format('MMMM'));
+    }
+
+    setData(current => {
+      return ({ ...current, ["editionList"]: arr, ["monthList"]: array })
+    })
+
     axios.get(`${process.env.REACT_APP_BASE_URL}/chart/colours/viewthismonth/june`)
       .then(function (res) {
         const strings = "ViewThismonth";
@@ -224,7 +234,7 @@ export default () => {
         })
       });
 
-    const months = "2021-08-01";
+    const months = moment().startOf('month').format('YYYY-MM-DD');
     const edition = "all";
     setData(current => {
       return ({ ...current, ["months"]: months, ["edition"]: edition, ["dates2"]: months })
